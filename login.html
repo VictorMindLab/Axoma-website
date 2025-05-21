@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - Axoma</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form-section">
+            <div class="logo-container">
+                <a href="/">
+                    <img src="images/axoma.png" alt="Logo da Axoma" class="login-logo">
+                </a>
+            </div>
+            <h2>Bem-vindo de volta</h2>
+            <p class="subtitle">Bem-vindo de volta, por favor insira seus dados</p>
+
+            <div class="form-toggle">
+                <button class="toggle-btn active" id="sign-in-btn">Entrar</button>
+                <button class="toggle-btn" id="sign-up-btn">Cadastrar</button>
+            </div>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="email">Endereço de Email</label>
+                    <div class="input-icon-wrapper">
+                        <i class="far fa-envelope email-icon"></i>
+                        <input type="email" id="email" name="email" value="ialirezamp@gmail.com" required>
+                        <i class="fas fa-check-circle success-icon"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-continue">Continuar</button>
+            </form>
+
+            <div class="social-login-divider">
+                <span>Ou continue com</span>
+            </div>
+
+            <div class="social-login-buttons">
+                <button class="social-btn google"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google"></button>
+                <button class="social-btn apple"><i class="fab fa-apple"></i></button>
+                <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+            </div>
+             <p class="footer-text">Entre para a comunidade Axoma e transforme seu treino. Acesse seus planos, acompanhe seu progresso e alcance seus objetivos fitness conosco!</p>
+        </div>
+        <div class="login-image-section">
+            <img src="images/retrato.jpg" alt="Homem sorrindo usando um laptop em um café">
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html> 

@@ -1,0 +1,278 @@
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.login-container {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 90%;
+    max-width: 1000px; /* Adjusted for better layout */
+}
+
+.login-form-section {
+    flex-basis: 50%;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.login-logo {
+    height: 35px; /* Adjusted based on your main page logo */
+    /* If your SVG logo is white, this will attempt to make it black */
+    /* For this to work, the axoma.svg should ideally be a single-color path SVG */
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+
+.login-form-section h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-toggle {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    overflow: hidden; /* Ensures rounded corners are respected by children */
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-btn.active {
+    background-color: #f0f2f5; /* Slightly different background for active */
+    color: #007bff;
+    font-weight: 600;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+}
+
+.toggle-btn:first-child {
+    border-right: 1px solid #e0e0e0; /* Separator */
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.input-icon-wrapper input[type="email"] {
+    flex-grow: 1;
+    padding: 12px 12px 12px 40px; /* Padding to make space for icon */
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: transparent;
+    outline: none;
+}
+
+.input-icon-wrapper .email-icon {
+    position: absolute;
+    left: 15px;
+    color: #aaa;
+}
+
+.input-icon-wrapper .success-icon {
+    position: absolute;
+    right: 15px;
+    color: #28a745; /* Green check */
+}
+
+.btn-continue {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 30px;
+}
+
+.btn-continue:hover {
+    background-color: #0056b3;
+}
+
+.social-login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.social-login-divider::before,
+.social-login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.social-login-divider span {
+    padding: 0 15px;
+}
+
+.social-login-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.social-btn {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.social-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+.social-btn img {
+    height: 20px;
+    width: 20px;
+}
+
+.social-btn i {
+    font-size: 20px;
+}
+
+.social-btn.google {
+    /* Specific styles if needed */
+}
+
+.social-btn.apple {
+    color: #000;
+}
+
+.social-btn.facebook {
+    color: #1877f2;
+}
+
+.login-image-section {
+    flex-basis: 50%;
+    background: linear-gradient(to bottom right, #6dd5ed, #2193b0, #0071c5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.footer-text {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+    text-align: center;
+    margin-top: auto; /* Pushes to the bottom */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        width: 95%;
+        max-width: 500px; /* Max width for smaller screens */
+    }
+
+    .login-form-section,
+    .login-image-section {
+        flex-basis: auto;
+    }
+
+    .login-image-section {
+        padding: 30px;
+        min-height: 250px; /* Ensure some height */
+        order: -1; /* Move image to top on mobile */
+    }
+
+    .login-form-section {
+        padding: 40px;
+    }
+
+    .login-form-section h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form-section {
+        padding: 30px 25px;
+    }
+    .subtitle {
+        font-size: 13px;
+    }
+    .form-toggle{
+        flex-direction: column;
+    }
+    .toggle-btn:first-child {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0; 
+    }
+} 
