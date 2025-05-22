@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axoma IA - Inteligência Avançada para Seu Treino</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <style>
+        :root {
+            --fn-bg-dark: #0D0D0D; /* Predominantly black background */
+            --fn-card-bg: #1A1A1A; /* Dark grey for cards */
+            --fn-card-border: #2C2C2C; /* Subtle border for cards */
+            --fn-text-primary: #F5F5F5; /* Light primary text */
+            --fn-text-secondary: #A0A0A0; /* Dimmer secondary text */
+            
+            /* Your chosen green accent */
+            --fn-accent-green: #8ccc15;
+            --fn-accent-green-darker: #7ab412;
+            --fn-accent-green-rgb: 140, 204, 21;
+
+            /* Accents from Finory example for specific cards */
+            --fn-accent-purple: #2c2c2c;
+            --fn-accent-pink: #2c2c2c; /* Adjusted pink to be closer to example */
+            --fn-accent-blue: #2F80ED;
+
+            --fn-text-on-accent: #ffffff; /* Dark text for on bright accent cards */
+            --fn-button-text-light: #FFFFFF; /* For buttons with dark/accent backgrounds */
+
+            --fn-font-family: 'Montserrat', sans-serif;
+        }
+
+        body.axoma-ia-finory-style {
+            background-color: var(--fn-bg-dark);
+            color: var(--fn-text-primary);
+            font-family: var(--fn-font-family);
+            line-height: 1.6;
+            padding-top: 0;
+            margin: 0;
+        }
+
+        header {
+            background-color: var(--fn-bg-dark); /* Solid dark header */
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--fn-card-border); /* Subtle separator */
+        }
+        /* Adjust header color from styles.css if needed */
+        header .menu a {
+            color: var(--fn-text-secondary);
+        }
+        header .menu a:hover, header .menu a.highlight {
+            color: var(--fn-text-primary);
+        }
+         header .logo img {
+             /* If your logo is dark and needs to be white on this page */
+             /* filter: brightness(0) invert(1); */
+         }
+
+        main.axoma-ia-content-fn {
+            padding-top: 100px; /* Increased padding for fixed header + some space */
+            padding-bottom: 60px;
+        }
+
+        .fn-section-wrapper {
+            padding: 20px 0;
+        }
+
+        .fn-grid-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem; /* Gap between cards */
+            margin-bottom: 4rem;
+        }
+
+        .fn-feature-card {
+            background-color: var(--fn-card-bg);
+            border: 1px solid var(--fn-card-border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            min-height: 300px; /* Give cards some default height */
+            display: flex;
+            flex-direction: column;
+            /* justify-content: space-between; */ /* If content needs to be spaced out */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fn-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .fn-feature-card .card-icon-placeholder {
+            /* Placeholder for small icons on top of some cards in Finory */
+            width: 60px;
+            height: 60px;
+            background-color: rgba(var(--fn-accent-green-rgb), 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fn-accent-green);
+            font-size: 1.5rem;
+        }
+
+        .fn-feature-card h3 {
+            font-size: 1.5rem; /* Approx 24px */
+            font-weight: 600;
+            color: var(--fn-text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .fn-feature-card p {
+            font-size: 0.95rem; /* Approx 15px */
+            color: var(--fn-text-secondary);
+            line-height: 1.7;
+            flex-grow: 1; /* Allow p to take up space if card uses flex for spacing */
+        }
+
+        .fn-feature-card .card-image-placeholder {
+            width: 100%;
+            height: 150px; /* Placeholder height for where an image/mockup might go */
+            background-color: #252525; /* Darker placeholder bg */
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fn-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Styles for general section titles if needed (like "Stay protected") */
+        .fn-section-title {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--fn-text-primary);
+            margin-top: 3rem;
+            margin-bottom: 1rem; /* Reduced margin for tighter spacing with intro p */
+        }
+        .fn-section-intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--fn-text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        /* Accent Cards Section (e.g., "Stay Protected") */
+        .fn-grid-accent-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .fn-accent-card {
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            min-height: 220px; /* Or adjust as needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center content */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .fn-accent-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .fn-accent-card.purple {
+            background-color: var(--fn-accent-purple);
+        }
+
+        .fn-accent-card.pink {
+            background-color: var(--fn-accent-pink);
+        }
+
+        .fn-accent-card .accent-card-icon {
+            font-size: 1.8rem; /* Larger icon */
+            color: var(--fn-text-primary); /* White icon on dark grey card */
+            background-color: rgba(255,255,255,0.05); /* Lighter than card bg */
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .fn-accent-card h3 {
+            font-size: 1.75rem; /* Larger title */
+            font-weight: 700;
+            color: var(--fn-text-on-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .fn-accent-card p {
+            font-size: 1rem;
+            color: var(--fn-text-on-accent);
+            opacity: 0.85; /* Slightly more opaque text on accent */
+            line-height: 1.6;
+        }
+
+        /* New Section: Core Intelligence Details */
+        .fn-intelligence-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .fn-intelligence-card {
+            background-color: var(--fn-card-bg);
+            border: 1px solid var(--fn-card-border);
+            border-radius: 12px; /* Slightly smaller radius than feature cards */
+            padding: 1.8rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center icon and title */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fn-intelligence-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.25);
+        }
+
+        .fn-intelligence-card .card-icon {
+            font-size: 2rem; /* Icon size */
+            color: var(--fn-accent-green);
+            margin-bottom: 1rem;
+            width: 60px; /* Icon background size */
+            height: 60px;
+            background-color: rgba(var(--fn-accent-green-rgb), 0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fn-intelligence-card h4 {
+            font-size: 1.25rem; /* Approx 20px */
+            font-weight: 600;
+            color: var(--fn-text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .fn-intelligence-card p {
+            font-size: 0.9rem; /* Approx 14px */
+            color: var(--fn-text-secondary);
+            line-height: 1.6;
+        }
+        /* End New Section Styles */
+
+        /* CTA Section (e.g., "Take the first step") */
+        .fn-cta-section {
+            background-color: var(--fn-card-bg); /* Dark card background */
+            border-radius: 20px;
+            padding: 3rem 0; /* Padding top/bottom, sides will be handled by container */
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+            overflow: hidden; /* To contain the image if it bleeds */
+        }
+
+        .fn-cta-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Default two columns */
+            align-items: center;
+            gap: 2rem; /* Gap between text and image columns */
+        }
+
+        .fn-cta-text {
+            padding: 1rem 2rem; /* Padding for text content */
+        }
+
+        .fn-cta-text h2 {
+            font-size: clamp(2rem, 4.5vw, 3.2rem); 
+            font-weight: 700;
+            color: var(--fn-text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-align: left; /* Ensure this h2 is left-aligned */
+        }
+
+        .fn-cta-text p {
+            font-size: 1rem;
+            color: var(--fn-text-secondary);
+            margin-bottom: 2rem;
+            max-width: 450px; /* Limit text width */
+        }
+        
+        .fn-cta-button {
+            display: inline-block;
+            padding: 10px 24px;
+            background-color: var(--fn-accent-green); /* Use your green accent */
+            color: var(--fn-button-text-light);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .fn-cta-button:hover {
+            background-color: var(--fn-accent-green-darker);
+            transform: translateY(-2px);
+        }
+
+        .fn-cta-image {
+            height: 100%; /* Make image container take full height of the card row */
+            min-height: 350px; /* Minimum height for the image area */
+            background-color: #252525; /* Placeholder background */
+            background-image: url('https://images.unsplash.com/photo-1548690312-e3b518a3e2dc?q=80&w=1287&auto=format&fit=crop'); /* Placeholder image */
+            background-size: cover;
+            background-position: center;
+            border-radius: 0 16px 16px 0; /* Round corners only on the right if image is on right */
+        }
+
+        /* Responsive adjustments for CTA section */
+        @media (max-width: 992px) {
+            .fn-cta-content {
+                grid-template-columns: 1fr; /* Stack columns on medium screens */
+            }
+            .fn-cta-image {
+                min-height: 300px;
+                border-radius: 0 0 16px 16px; /* Round bottom corners when stacked */
+                margin-top: 2rem;
+            }
+            .fn-cta-text {
+                text-align: left;
+            }
+            .fn-cta-text p {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fn-cta-text h2 {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+            }
+            .fn-cta-image {
+                 min-height: 250px;
+            }
+        }
+
+        /* Footer Styles */
+        .fn-footer {
+            padding: 3rem 0 2rem; /* More padding for footer */
+            border-top: 1px solid var(--fn-card-border);
+            margin-top: 4rem;
+        }
+
+        .fn-footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .fn-footer-logo-section {
+            /* margin-bottom: 1.5rem; */ /* If logo is above columns on mobile */
+        }
+
+        .fn-footer-logo {
+            height: 28px; /* Adjust as needed */
+            margin-bottom: 1rem;
+            /* filter: brightness(0) invert(1); Apply if logo is dark */
+        }
+        .fn-footer-tagline {
+            font-size: 0.9rem;
+            color: var(--fn-text-secondary);
+            max-width: 250px;
+        }
+
+        .fn-footer-column h4 {
+            font-size: 1rem; /* Approx 16px */
+            font-weight: 600;
+            color: var(--fn-text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .fn-footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .fn-footer-column ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .fn-footer-column ul li a {
+            color: var(--fn-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .fn-footer-column ul li a:hover {
+            color: var(--fn-accent-green);
+        }
+
+        .fn-footer-bottom-bar {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--fn-card-border);
+            font-size: 0.85rem;
+            color: var(--fn-text-secondary);
+        }
+        .fn-footer-socials {
+            margin-bottom: 1.5rem;
+            text-align: left; /* Or center if preferred */
+        }
+        .fn-footer-socials a {
+            color: var(--fn-text-secondary);
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        .fn-footer-socials a:hover {
+            color: var(--fn-accent-green);
+        }
+
+        @media (max-width: 768px) {
+            .fn-footer-content {
+                grid-template-columns: 1fr 1fr; /* Stack to 2 columns on smaller screens */
+            }
+            .fn-footer-logo-section {
+                grid-column: span 2; /* Make logo section span full width */
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            .fn-footer-tagline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .fn-footer-socials {
+                text-align: center;
+            }
+            .fn-intelligence-details-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust for smaller screens */
+            }
+        }
+        @media (max-width: 480px) {
+            .fn-footer-content {
+                grid-template-columns: 1fr; /* Stack to 1 column */
+            }
+             .fn-footer-logo-section {
+                grid-column: span 1; 
+            }
+        }
+
+    </style>
+</head>
+<body class="axoma-ia-finory-style">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/axoma.png" alt="Axoma Logo" style="height: 30px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html#produto">Produtos <i class="fas fa-chevron-down"></i></a></li>
+                    <li><a href="index.html#recursos">Recursos <i class="fas fa-chevron-down"></i></a></li>
+                    <li><a href="index.html#comunidade">Comunidade <i class="fas fa-chevron-down"></i></a></li>
+                    <li><a href="axoma-ia.html" class="highlight">Axoma IA</a></li>
+                    <li><a href="login.html">Fazer Login</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="axoma-ia-content-fn">
+        <div class="fn-section-wrapper">
+            <div class="container">
+                
+                <!-- Top Feature Grid -->
+                <div class="fn-grid-features">
+                    <!-- Card 1: Crypto bundles (example structure) -->
+                    <div class="fn-feature-card">
+                        <div class="card-icon-placeholder"><i class="fas fa-layer-group"></i></div> <!-- Placeholder for Bitcoin-like icon -->
+                        <h3>Planos de Treino Agrupados</h3>
+                        <p>Diversifique seus treinos com coleções de exercícios pré-selecionados para ganho de força, emagrecimento ou bem-estar geral. Escolhas inteligentes e seguras.</p>
+                        <div class="card-image-placeholder">Visual do App: Agrupamentos</div>
+                    </div>
+
+                    <!-- Card 2: Cashback rewards (example structure) -->
+                    <div class="fn-feature-card">
+                        <h3>Recompensas por Performance</h3>
+                        <p>Ganhe pontos e desbloqueie conquistas ao atingir suas metas. Maximize seus resultados e mantenha a motivação em alta.</p>
+                        <div class="card-image-placeholder">Visual do App: Recompensas</div>
+                         <!-- In the Finory example, this card has a full-bleed image that seems to be part of the card background or overlayed text. -->
+                         <!-- For simplicity, I'm using a placeholder. A full image would require different CSS. -->
+                    </div>
+
+                    <!-- Card 3: Asset-backed (example structure) -->
+                    <div class="fn-feature-card">
+                        <div class="card-icon-placeholder"><i class="fas fa-chart-line"></i></div>
+                        <h3>Resultados Mensuráveis</h3>
+                        <p>Acompanhe seu progresso com dados reais e gráficos intuitivos. Oferecemos métricas confiáveis e estáveis para sua evolução.</p>
+                        <div class="card-image-placeholder">Visual do App: Gráficos</div>
+                    </div>
+
+                    <!-- Card 4: Intuitive buying process (example structure) -->
+                    <div class="fn-feature-card">
+                        <h3>Processo de Setup Intuitivo</h3>
+                        <p>Gerencie facilmente seu perfil e preferências de treino com nossa interface otimizada e amigável.</p>
+                        <div class="card-image-placeholder">Visual do App: Tela de Setup</div>
+                    </div>
+                </div>
+                <!-- End Top Feature Grid -->
+
+                <!-- Placeholder for "Stay protected" section -->
+                <div class="fn-section-title">Sua Jornada Fitness Protegida</div>
+                <p class="fn-section-intro">Com Axoma IA, seus dados e sua progressão estão sempre seguros e otimizados para você focar no que realmente importa: seu treino.</p>
+                <div class="fn-grid-accent-cards">
+                    <!-- Purple Card -->
+                    <div class="fn-accent-card purple">
+                        <div class="accent-card-icon"><i class="fas fa-bell"></i></div> <!-- Bell icon for alerts -->
+                        <h3>Alertas em Tempo Real</h3>
+                        <p>Receba notificações instantâneas sobre seu progresso, novas recomendações e atualizações no seu plano.</p>
+                    </div>
+                    <!-- Pink Card -->
+                    <div class="fn-accent-card pink">
+                        <div class="accent-card-icon"><i class="fas fa-shield-alt"></i></div> <!-- Shield icon for encryption/security -->
+                        <h3>Privacidade de Dados Assegurada</h3>
+                        <p>Todos os seus dados são criptografados e mantidos em segurança, garantindo total privacidade e confidencialidade.</p>
+                    </div>
+                </div>
+
+                <!-- New Section: The Intelligence Behind Your Success -->
+                <div class="fn-section-title">A Inteligência por Trás do Seu Sucesso</div>
+                <p class="fn-section-intro">
+                    Axoma IA não é apenas um app, é seu parceiro de treino pessoal, aproveitando tecnologia de ponta para oferecer uma experiência fitness verdadeiramente personalizada e eficaz.
+                </p>
+                <div class="fn-intelligence-details-grid">
+                    <div class="fn-intelligence-card">
+                        <div class="card-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Análise Preditiva de Performance</h4>
+                        <p>Axoma IA utiliza algoritmos avançados para analisar seu histórico de treinos, padrões de progresso e até mesmo dados biométricos (com sua permissão) para prever possíveis estagnações e otimizar sua rota para o sucesso.</p>
+                    </div>
+                    <div class="fn-intelligence-card">
+                        <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                        <h4>Adaptação Dinâmica de Treinos</h4>
+                        <p>Seu plano não é estático. A IA ajusta dinamicamente os exercícios, séries, repetições e descansos com base no seu feedback pós-treino, níveis de energia reportados e performance, garantindo que você esteja sempre desafiado na medida certa.</p>
+                    </div>
+                    <div class="fn-intelligence-card">
+                        <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h4>Insights e Recomendações Inteligentes</h4>
+                        <p>Vá além dos números. Receba insights claros sobre o que está funcionando, onde você pode melhorar e recomendações personalizadas sobre nutrição, recuperação e hábitos para maximizar seus resultados.</p>
+                    </div>
+                </div>
+                <!-- End New Section -->
+
+                <!-- New CTA Section (Take the first step) -->
+                <section class="fn-cta-section">
+                    <div class="container">
+                        <div class="fn-cta-content">
+                            <div class="fn-cta-text">
+                                <h2>Dê o Primeiro Passo Rumo ao Treino Inteligente</h2>
+                                <p>Descubra como a Axoma IA pode transformar sua abordagem ao fitness, oferecendo personalização, precisão e motivação incomparáveis.</p>
+                                <a href="login.html" class="fn-cta-button">Comece Sua Jornada</a>
+                            </div>
+                            <div class="fn-cta-image">
+                                <!-- Image is set via CSS background-image -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End New CTA Section -->
+
+                <!-- Placeholder for the next large section (e.g., Take the first step...) -->
+                 <div style="text-align:center; margin-top: 4rem; color: var(--fn-text-secondary); display: none; /* Hidden for now as footer will replace it */">
+                    <p><em>Mais seções de conteúdo, como o rodapé detalhado, serão adicionadas em breve.</em></p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="fn-footer">
+        <div class="container">
+            <div class="fn-footer-content">
+                <div class="fn-footer-logo-section">
+                    <img src="images/axoma.png" alt="Axoma Logo" class="fn-footer-logo" style="height: 28px; /* filter: brightness(0) invert(1); uncomment if logo is dark */">
+                    <p class="fn-footer-tagline">Potencializando seu fitness com inteligência artificial.</p>
+                    <div class="fn-footer-socials">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a> 
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="fn-footer-column">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="axoma-ia.html">Axoma IA</a></li>
+                        <li><a href="index.html#recursos">Recursos</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="fn-footer-column">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Imprensa</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="fn-footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fn-footer-bottom-bar">
+                <p>&copy; 2025 AXOMA. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

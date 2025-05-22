@@ -16,8 +16,8 @@
                     <img src="images/axoma.png" alt="Logo da Axoma" class="login-logo">
                 </a>
             </div>
-            <h2>Bem-vindo de volta</h2>
-            <p class="subtitle">Bem-vindo de volta, por favor insira seus dados</p>
+            <h2 id="form-title">Bem-vindo de volta</h2>
+            <p class="subtitle" id="form-subtitle">Bem-vindo de volta, por favor insira seus dados</p>
 
             <div class="form-toggle">
                 <button class="toggle-btn active" id="sign-in-btn">Entrar</button>
@@ -25,6 +25,10 @@
             </div>
 
             <form id="login-form">
+                <div class="input-group optional-signup-field" id="name-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" name="name" placeholder="Seu nome completo">
+                </div>
                 <div class="input-group">
                     <label for="email">Endereço de Email</label>
                     <div class="input-icon-wrapper">
@@ -33,7 +37,15 @@
                         <i class="fas fa-check-circle success-icon"></i>
                     </div>
                 </div>
-                <button type="submit" class="btn-continue">Continuar</button>
+                <div class="input-group optional-signup-field" id="password-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Crie uma senha">
+                </div>
+                <div class="input-group optional-signup-field" id="confirm-password-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha">
+                </div>
+                <button type="submit" class="btn-continue" id="submit-button">Continuar</button>
             </form>
 
             <div class="social-login-divider">

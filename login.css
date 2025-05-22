@@ -1,22 +1,69 @@
+/* At the top of login.css or in a :root {} block */
+:root {
+    --login-primary-color: #007bff;
+    --input-group-border-color: #ffffff; /* A slightly softer grey for the main group border */
+    --input-group-bg-color: #ffedcb;
+    --input-group-focus-border-color: var(--login-primary-color);
+    --input-group-focus-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+
+    --input-field-border-color: #4ab93f; /* Border for the actual input field/wrapper inside */
+    --input-field-bg-color: #ffedcb;    /* Background for the actual input field/wrapper (very light grey) */
+    --input-field-focus-border-color: #a5b4fc; /* A softer blue for field focus */
+    --input-field-focus-bg-color: #ffedcb;
+
+    --input-text-color: #37513b; /* Darker grey for text */
+    --input-placeholder-color: #368b21; /* Softer placeholder */
+    --label-text-color: #198d1e; /* Label color */
+}
+
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background-color: #f0f2f5;
+    /* background-color: #f0f2f5; -- Removed original background color */
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     color: #333;
+
+    /* New background image styles */
+    background-image: url('images/fundo_login.jpg');
+    background-size: cover; /* Faz a imagem cobrir toda a área */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    background-attachment: fixed; /* Mantém o fundo fixo ao rolar (se houver rolagem) */
+
+    /* Initial state for full page fade-in */
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out; /* Adjust duration and easing as needed */
+}
+
+/* Class to apply when body is loaded */
+body.body-loaded {
+    opacity: 1;
 }
 
 .login-container {
     display: flex;
-    background-color: #ffffff;
+    background-color: #ffedcb;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 90%;
     max-width: 1000px; /* Adjusted for better layout */
+
+    /* Initial state for page load animation */
+    opacity: 0;
+    transform: translateY(30px); /* Increased initial offset slightly for a bit more movement */
+    transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: opacity, transform; /* Hint for browser optimization */
+}
+
+/* State for when the page content is loaded/visible */
+.login-container.loaded {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .login-form-section {
@@ -31,9 +78,7 @@ body {
 }
 
 .login-logo {
-    height: 35px; /* Adjusted based on your main page logo */
-    /* If your SVG logo is white, this will attempt to make it black */
-    /* For this to work, the axoma.svg should ideally be a single-color path SVG */
+    height: 35px;
     filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
@@ -41,27 +86,27 @@ body {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #000;
+    color: #07911a;
 }
 
 .subtitle {
     font-size: 14px;
-    color: #666;
+    color: #666666;
     margin-bottom: 30px;
 }
 
 .form-toggle {
     display: flex;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgb(25, 161, 82);
     border-radius: 8px;
     margin-bottom: 30px;
-    overflow: hidden; /* Ensures rounded corners are respected by children */
+    overflow: hidden;
 }
 
 .toggle-btn {
     flex: 1;
     padding: 12px;
-    background-color: #fff;
+    background-color: #ffedcb;
     border: none;
     cursor: pointer;
     font-size: 14px;
@@ -71,18 +116,41 @@ body {
 }
 
 .toggle-btn.active {
-    background-color: #f0f2f5; /* Slightly different background for active */
-    color: #007bff;
+    background-color: #d0ff85;
+    color: #269c1c;
     font-weight: 600;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
 }
 
 .toggle-btn:first-child {
-    border-right: 1px solid #e0e0e0; /* Separator */
+    border-right: 1px solid #0d962b;
 }
 
 .input-group {
-    margin-bottom: 25px;
+    /* This is the main container for label + input field area */
+    background-color: var(--input-group-bg-color); 
+    padding: 0; 
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Styles for optional sign-up fields for transition */
+.optional-signup-field {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin-bottom: 0; /* Collapse margin when hidden */
+    /* Shorter durations and consistent ease-out, added will-change */
+    transition: opacity 0.25s ease-out, 
+                max-height 0.3s ease-out, 
+                margin-bottom 0.25s ease-out;
+    will-change: opacity, max-height, margin-bottom; /* Hint for browser optimization */
+}
+
+.optional-signup-field.visible {
+    opacity: 1;
+    max-height: 120px; /* Adjust as needed */
+    margin-bottom: 20px; /* Restore original margin */
 }
 
 .input-group label {
@@ -90,32 +158,75 @@ body {
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 8px;
-    color: #444;
+    color: var(--label-text-color);
 }
 
+/* Styling for the actual input fields (text, password) */
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    padding: 12px 14px;
+    border: 1px solid var(--input-field-border-color);
+    border-radius: 8px; /* Rounded corners for the field */
+    font-size: 15px;
+    background-color: var(--input-field-bg-color);
+    outline: none;
+    color: var(--input-text-color);
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="password"]:focus {
+    border-color: var(--input-field-focus-border-color);
+    background-color: var(--input-field-focus-bg-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--input-field-focus-border-color), 0.25); /* Subtle glow using field focus color */
+}
+
+/* Styling for the email input's wrapper */
 .input-icon-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    border: 1px solid var(--input-field-border-color);
+    border-radius: 8px; /* Rounded corners for the wrapper */
+    background-color: var(--input-field-bg-color);
+    transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    /* The input inside will be transparent on this background */
+}
+
+.input-icon-wrapper:focus-within {
+    border-color: var(--input-field-focus-border-color);
+    background-color: var(--input-field-focus-bg-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--input-field-focus-border-color), 0.25);
 }
 
 .input-icon-wrapper input[type="email"] {
     flex-grow: 1;
-    padding: 12px 12px 12px 40px; /* Padding to make space for icon */
+    padding: 12px 14px;
+    padding-left: 40px; /* Make space for the icon */
     border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    background-color: transparent;
+    font-size: 15px;
+    background-color: transparent; /* Transparent on .input-icon-wrapper's background */
     outline: none;
+    color: var(--input-text-color);
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px; /* Match wrapper's radius */
+}
+
+/* Placeholder styling */
+.input-group input[type="text"]::placeholder,
+.input-group input[type="password"]::placeholder,
+.input-icon-wrapper input[type="email"]::placeholder {
+    color: var(--input-placeholder-color);
+    opacity: 1;
 }
 
 .input-icon-wrapper .email-icon {
     position: absolute;
     left: 15px;
-    color: #aaa;
+    color: #0f9726;
 }
 
 .input-icon-wrapper .success-icon {
@@ -124,10 +235,11 @@ body {
     color: #28a745; /* Green check */
 }
 
+
 .btn-continue {
     width: 100%;
     padding: 14px;
-    background-color: #007bff;
+    background-color: #04692b;
     color: white;
     border: none;
     border-radius: 8px;
@@ -139,14 +251,14 @@ body {
 }
 
 .btn-continue:hover {
-    background-color: #0056b3;
+    background-color: hsl(98, 96%, 31%);
 }
 
 .social-login-divider {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #aaa;
+    color: #0d7524;
     font-size: 13px;
     margin-bottom: 20px;
 }
@@ -155,7 +267,7 @@ body {
 .social-login-divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #188126;
 }
 
 .social-login-divider span {
@@ -170,8 +282,8 @@ body {
 }
 
 .social-btn {
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
+    background-color: #ffedcb;
+    border: 1px solid #129c18;
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -201,11 +313,11 @@ body {
 }
 
 .social-btn.apple {
-    color: #000;
+    color: #0fa52f;
 }
 
 .social-btn.facebook {
-    color: #1877f2;
+    color: #11972e;
 }
 
 .login-image-section {
@@ -227,7 +339,7 @@ body {
 
 .footer-text {
     font-size: 12px;
-    color: #888;
+    color: #0f7a0f;
     line-height: 1.6;
     text-align: center;
     margin-top: auto; /* Pushes to the bottom */
@@ -273,6 +385,6 @@ body {
     }
     .toggle-btn:first-child {
         border-right: none;
-        border-bottom: 1px solid #e0e0e0; 
+        border-bottom: 1px solid #e0e0e0;
     }
 } 
