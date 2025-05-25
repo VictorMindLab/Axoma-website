@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Axoma</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="images/axoma.png" alt="Axoma Logo" class="logo">
+            <h2>Axoma</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item active">
+                    <a href="#dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#treinos">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Meus Treinos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#progresso">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Progresso</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#nutricao">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>Nutrição</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ia">
+                        <i class="fas fa-brain"></i>
+                        <span>Axoma IA</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#configuracoes">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">João Silva</span>
+                    <span class="user-plan">Plano Pro</span>
+                </div>
+            </div>
+            <button class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Bem-vindo de volta, João!</h1>
+                <p>Vamos continuar sua jornada fitness hoje</p>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle-btn" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="date-display">
+                    <span id="current-date"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card animate-fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>1,247</h3>
+                            <p>Calorias queimadas hoje</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card animate-fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>45 min</h3>
+                            <p>Tempo de treino</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card animate-fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>Dias consecutivos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card animate-fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>85%</h3>
+                            <p>Meta semanal</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2>Ações Rápidas</h2>
+                <div class="actions-grid">
+                    <button class="action-card animate-fade-in-up">
+                        <i class="fas fa-play"></i>
+                        <span>Iniciar Treino</span>
+                    </button>
+                    <button class="action-card animate-fade-in-up">
+                        <i class="fas fa-plus"></i>
+                        <span>Novo Plano</span>
+                    </button>
+                    <button class="action-card animate-fade-in-up">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Ver Relatório</span>
+                    </button>
+                    <button class="action-card animate-fade-in-up">
+                        <i class="fas fa-robot"></i>
+                        <span>Consultar IA</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Activity & Upcoming -->
+            <div class="content-grid">
+                <!-- Recent Workouts -->
+                <section class="recent-workouts animate-fade-in-left">
+                    <h2>Treinos Recentes</h2>
+                    <div class="workout-list">
+                        <div class="workout-item">
+                            <div class="workout-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="workout-details">
+                                <h4>Treino de Força - Superiores</h4>
+                                <p>Ontem • 50 min • 320 cal</p>
+                            </div>
+                            <div class="workout-status completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="workout-item">
+                            <div class="workout-icon">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <div class="workout-details">
+                                <h4>Cardio HIIT</h4>
+                                <p>2 dias atrás • 30 min • 280 cal</p>
+                            </div>
+                            <div class="workout-status completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="workout-item">
+                            <div class="workout-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="workout-details">
+                                <h4>Yoga & Flexibilidade</h4>
+                                <p>3 dias atrás • 25 min • 120 cal</p>
+                            </div>
+                            <div class="workout-status completed">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Schedule -->
+                <section class="upcoming-schedule animate-fade-in-left">
+                    <h2>Próximos Treinos</h2>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <span class="time">18:00</span>
+                                <span class="date">Hoje</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Treino de Pernas</h4>
+                                <p>45 min • Intermediário</p>
+                            </div>
+                            <button class="schedule-action">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <span class="time">07:00</span>
+                                <span class="date">Amanhã</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Cardio Matinal</h4>
+                                <p>30 min • Leve</p>
+                            </div>
+                            <button class="schedule-action">
+                                <i class="fas fa-calendar"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <span class="time">19:30</span>
+                                <span class="date">Sexta</span>
+                            </div>
+                            <div class="schedule-details">
+                                <h4>Treino Funcional</h4>
+                                <p>40 min • Avançado</p>
+                            </div>
+                            <button class="schedule-action">
+                                <i class="fas fa-calendar"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- AI Insights -->
+            <section class="ai-insights animate-fade-in-up">
+                <h2>Insights da Axoma IA</h2>
+                <div class="insight-card animate-glow">
+                    <div class="insight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h3>Recomendação Personalizada</h3>
+                        <p>Com base no seu progresso, recomendamos aumentar a intensidade dos treinos de cardio em 15% na próxima semana para otimizar a queima de gordura.</p>
+                        <button class="insight-action" onclick="showAIInsightDetails()">Ver Detalhes</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 

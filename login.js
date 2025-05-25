@@ -22,22 +22,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const formSubtitle = document.getElementById('form-subtitle');
     const submitButton = document.getElementById('submit-button');
 
-    // Get all optional fields by their common class
-    const optionalFields = document.querySelectorAll('.optional-signup-field'); 
+    // Input groups
+    const nameGroup = document.getElementById('name-group');
+    const passwordGroup = document.getElementById('password-group');
+    const confirmPasswordGroup = document.getElementById('confirm-password-group');
+    
+    // Inputs for direct manipulation (e.g., placeholder, value)
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const nameInput = document.getElementById('name');
 
-    function updateFormState(isSignUp) {
-        if (isSignUp) {
+
+    let currentMode = 'signin'; // 'signin' or 'signup'
+    let loginStep = 'email';    // For 'signin' mode: 'email' or 'password'
+
+    function setFormUI() {
+        if (currentMode === 'signup') {
             formTitle.textContent = 'Crie sua conta';
             formSubtitle.textContent = 'Insira seus dados para começar.';
             submitButton.textContent = 'Cadastrar';
-            optionalFields.forEach(field => field.classList.add('visible'));
+
+            nameGroup.classList.add('visible');
+            passwordGroup.classList.add('visible');
+            confirmPasswordGroup.classList.add('visible');
+            passwordInput.placeholder = "Crie uma senha";
+
             signInBtn.classList.remove('active');
             signUpBtn.classList.add('active');
-        } else {
+        } else { // signin mode
             formTitle.textContent = 'Bem-vindo de volta';
-            formSubtitle.textContent = 'Bem-vindo de volta, por favor insira seus dados';
-            submitButton.textContent = 'Continuar';
-            optionalFields.forEach(field => field.classList.remove('visible'));
+            
+            nameGroup.classList.remove('visible');
+            confirmPasswordGroup.classList.remove('visible'); // Name and Confirm are always hidden in signin
+
+            if (loginStep === 'email') {
+                formSubtitle.textContent = 'Bem-vindo de volta, por favor insira seus dados';
+                submitButton.textContent = 'Continuar';
+                passwordGroup.classList.remove('visible'); // Password hidden at email step
+                passwordInput.placeholder = "Sua senha"; // Set for context even if hidden
+            } else { // loginStep === 'password'
+                formSubtitle.textContent = 'Insira sua senha para continuar.';
+                submitButton.textContent = 'Entrar';
+                passwordGroup.classList.add('visible'); // Password shown at password step
+                passwordInput.placeholder = "Sua senha";
+            }
+
             signInBtn.classList.add('active');
             signUpBtn.classList.remove('active');
         }
@@ -45,32 +74,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (signInBtn && signUpBtn) {
         signInBtn.addEventListener('click', () => {
-            updateFormState(false);
+            currentMode = 'signin';
+            loginStep = 'email'; // Reset to email step
+            setFormUI();
             console.log('Sign In selected');
         });
 
         signUpBtn.addEventListener('click', () => {
-            updateFormState(true);
+            currentMode = 'signup';
+            // No loginStep for signup, but ensure form UI is correct
+            setFormUI();
             console.log('Sign Up selected');
         });
     }
 
-    // Initialize with sign-in state
-    updateFormState(false);
-
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            // Add additional logic for name, password if in signup mode
-            if (signUpBtn.classList.contains('active')) {
-                const name = document.getElementById('name').value;
-                const password = document.getElementById('password').value;
-                alert(`Cadastro enviado com nome: ${name}, email: ${email}. Lógica de cadastro real não implementada.`);
-            } else {
-            alert(`Formulário enviado com o email: ${email}. Lógica de login real não implementada.`);
+            const emailValue = emailInput.value;
+
+            if (currentMode === 'signup') {
+                const nameValue = nameInput.value;
+                const passwordValue = passwordInput.value;
+                const confirmPasswordValue = document.getElementById('confirm-password').value;
+
+                if (!nameValue || !emailValue || !passwordValue) {
+                    alert("Por favor, preencha todos os campos para cadastro.");
+                    return;
+                }
+                if (passwordValue !== confirmPasswordValue) {
+                    alert("As senhas não coincidem.");
+                    return;
+                }
+                alert(`Cadastro: Nome: ${nameValue}, Email: ${emailValue}. Lógica de cadastro real não implementada.`);
+                // loginForm.reset(); // Consider resetting form
+            } else { // signin mode
+                if (loginStep === 'email') {
+                    if (!emailValue) {
+                        alert("Por favor, insira seu email.");
+                        return;
+                    }
+                    loginStep = 'password';
+                    setFormUI(); // Update UI to show password field and change button
+                    passwordInput.focus();
+                } else { // loginStep === 'password'
+                    const passwordValue = passwordInput.value;
+                    if (!passwordValue) {
+                        alert("Por favor, insira sua senha.");
+                        return;
+                    }
+                    // Simulate successful login and redirect to dashboard
+                    alert(`Login realizado com sucesso! Redirecionando para o dashboard...`);
+                    
+                    // Redirect to dashboard after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000); 
+                }
             }
-            // Add actual login/signup logic here
         });
     }
+
+    // Initial setup: Set initial form state to sign-in, email step
+    currentMode = 'signin';
+    loginStep = 'email';
+    setFormUI();
 }); 

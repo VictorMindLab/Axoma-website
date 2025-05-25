@@ -164,6 +164,54 @@ header .container {
     font-weight: 600;
 }
 
+/* Dropdown Menu Styles */
+.menu li.dropdown-parent {
+    position: relative;
+}
+
+.menu .dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position below the parent */
+    left: 0;
+    background-color: rgba(10, 10, 10, 0.98); /* Slightly more opaque dark background */
+    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+    padding: 10px 0;
+    z-index: 1001; /* Ensure it's above other header content */
+    min-width: 200px; /* Minimum width for the dropdown */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle top border */
+}
+
+.menu .dropdown-menu.show {
+    display: block; /* Show when class is added */
+}
+
+.menu .dropdown-menu li {
+    margin-left: 0; /* Reset margin from parent menu */
+    width: 100%;
+}
+
+.menu .dropdown-menu li a {
+    padding: 12px 20px;
+    display: block;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--light-text);
+    opacity: 0.85;
+}
+
+.menu .dropdown-menu li a i {
+    display: none; /* Hide chevrons in dropdown items for now */
+}
+
+.menu .dropdown-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+    color: var(--primary-color); /* Example: highlight with primary color on hover */
+}
+
 /* Hero Section */
 .hero {
     background-color: var(--dark-color); /* Reativado fallback original */

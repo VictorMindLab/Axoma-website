@@ -246,3 +246,56 @@ document.head.insertAdjacentHTML('beforeend', `
         }
     </style>
 `); 
+
+// Dropdown Menu Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+    dropdownToggles.forEach(toggle => {
+        const dropdownMenu = toggle.nextElementSibling; // Get the .dropdown-menu next to the toggle
+
+        if (dropdownMenu) {
+            toggle.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Close other open dropdowns before opening the current one
+                document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                    if (openMenu !== dropdownMenu) {
+                        openMenu.classList.remove('show');
+                    }
+                });
+
+                dropdownMenu.classList.toggle('show');
+            });
+        }
+    });
+
+    // Close all dropdowns if clicked outside
+    document.addEventListener('click', function(event) {
+        let clickedInsideADropdown = false;
+        dropdownToggles.forEach(toggle => {
+            const dropdownMenu = toggle.nextElementSibling;
+            if (dropdownMenu && (dropdownMenu.contains(event.target) || toggle.contains(event.target))) {
+                clickedInsideADropdown = true;
+            }
+        });
+
+        if (!clickedInsideADropdown) {
+            document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                openMenu.classList.remove('show');
+            });
+        }
+    });
+
+    // Mobile Menu Toggle (if it exists in your script.js)
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const menu = document.querySelector('header .menu'); // Assuming this is your main menu UL
+
+    if (mobileMenuBtn && menu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            menu.classList.toggle('active'); // You'll need CSS for .menu.active
+        });
+    }
+}); 
