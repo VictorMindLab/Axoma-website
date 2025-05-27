@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axoma IA</title>
+    <title>Axoma IA Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2a2a2a;
-            --bg-tertiary: #333333;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
             --text-muted: #666666;
-            --accent-color: #ffa500;
-            --accent-hover: #ff8c00;
-            --border-color: #404040;
-            --sidebar-width: 240px;
+            --accent-color: #6366f1;
+            --accent-hover: #5855eb;
+            --border-color: #333333;
+            --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --gradient-secondary: linear-gradient(135deg, #1a1a1a, #2a2a2a);
         }
 
         * {
@@ -30,327 +31,90 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            overflow: hidden;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         /* Header */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
-            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            z-index: 1000;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #000;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover .logo-icon {
-            transform: rotate(10deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-        }
-
-        .logo-text {
+            gap: 12px;
             font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .logo i {
+            color: var(--accent-color);
         }
 
-        .header-btn {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            cursor: pointer;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .header-btn:hover {
-            background: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-        }
-
-        .upgrade-btn {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .upgrade-btn:hover {
-            background: linear-gradient(135deg, var(--accent-hover), var(--accent-color));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 60px;
-            width: var(--sidebar-width);
-            height: calc(100vh - 60px);
-            background: linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
-            border-right: 1px solid var(--border-color);
-            padding: 24px 0;
-            overflow-y: auto;
-            backdrop-filter: blur(10px);
-        }
-
-        .sidebar-section {
-            margin-bottom: 32px;
-            position: relative;
-        }
-
-        .sidebar-section::after {
-            content: '';
-            position: absolute;
-            bottom: -16px;
-            left: 20px;
-            right: 20px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-        }
-
-        .sidebar-section:last-child::after {
-            display: none;
-        }
-
-        .sidebar-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0 20px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 20px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 14px;
-            font-weight: 500;
-            position: relative;
-            margin: 2px 8px;
-            border-radius: 12px;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--accent-color);
-            border-radius: 0 3px 3px 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-item:hover {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-            color: var(--text-primary);
-            transform: translateX(4px);
-        }
-
-        .sidebar-item.active {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #000;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-        }
-
-        .sidebar-item.active::before {
-            opacity: 1;
-        }
-
-        .sidebar-item i {
-            width: 18px;
             font-size: 16px;
-            transition: transform 0.3s ease;
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
-        .sidebar-item:hover i {
-            transform: scale(1.1);
-        }
-
-        .sidebar-item.active i {
-            transform: scale(1.2);
+        .user-avatar:hover {
+            transform: scale(1.05);
         }
 
         /* Main Content */
         .main-content {
-            margin-left: var(--sidebar-width);
-            height: 100vh;
-            padding-top: 60px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            position: relative;
-            background: radial-gradient(ellipse at center, rgba(255, 165, 0, 0.03) 0%, transparent 70%);
-        }
-
-        /* Welcome Screen */
-        .welcome-screen {
+            align-items: center;
+            padding: 40px 0;
             text-align: center;
-            max-width: 700px;
-            padding: 40px 20px;
-            animation: fadeInUp 0.8s ease-out;
         }
 
         /* Chat Interface */
         .chat-interface {
-            width: 100%;
-            height: calc(100vh - 60px);
-            display: flex;
+            flex: 1;
+            display: none;
             flex-direction: column;
-            animation: fadeInUp 0.5s ease-out;
+            padding: 20px 0;
         }
 
-        .chat-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
+        .chat-interface.active {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg-secondary);
-            backdrop-filter: blur(10px);
-        }
-
-        .chat-agent-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .agent-avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #000;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-        }
-
-        .agent-details h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 4px 0;
-        }
-
-        .agent-details p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-action-btn {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .chat-action-btn:hover {
-            background: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
-            transform: translateY(-1px);
         }
 
         .chat-messages {
             flex: 1;
-            padding: 24px;
             overflow-y: auto;
+            padding: 20px 0;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            background: var(--bg-primary);
+            max-height: calc(100vh - 300px);
         }
 
         .message {
@@ -358,6 +122,50 @@
             gap: 12px;
             max-width: 80%;
             animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-color);
+        }
+
+        .message-content {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            border: 1px solid var(--border-color);
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--accent-color);
         }
 
         @keyframes messageSlideIn {
@@ -371,61 +179,27 @@
             }
         }
 
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .message.ai .message-avatar {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #000;
-        }
-
-        .message.user .message-avatar {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .message-content {
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            border-radius: 16px;
-            color: var(--text-primary);
-            line-height: 1.5;
-            border: 1px solid var(--border-color);
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #000;
-            border-color: var(--accent-color);
-        }
-
-        .chat-input-area {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            backdrop-filter: blur(10px);
-        }
-
         .typing-indicator {
             display: flex;
             align-items: center;
+            gap: 12px;
+            max-width: 80%;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .typing-indicator .message-avatar {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .typing-content {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
             gap: 8px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            padding: 8px 0;
         }
 
         .typing-dots {
@@ -434,8 +208,8 @@
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: var(--accent-color);
             border-radius: 50%;
             animation: typingPulse 1.4s infinite ease-in-out;
@@ -455,909 +229,1067 @@
             }
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .main-icon {
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, #ffa500, #ff8c00, #ffb347);
-            border-radius: 28px;
+        .chat-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 56px;
-            margin: 0 auto 32px;
-            box-shadow: 
-                0 20px 40px rgba(255, 165, 0, 0.3),
-                0 8px 16px rgba(255, 165, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
         }
 
-        .main-icon:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 
-                0 25px 50px rgba(255, 165, 0, 0.4),
-                0 12px 24px rgba(255, 165, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .main-icon::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ffa500, #ff8c00, #ffb347, #ffa500);
-            border-radius: 30px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .main-icon:hover::before {
-            opacity: 0.7;
-            animation: rotate 2s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .main-title {
-            font-size: 32px;
-            font-weight: 700;
+        .chat-title {
+            font-size: 24px;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff, #ffa500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .main-subtitle {
-            font-size: 16px;
-            color: var(--text-muted);
-            margin-bottom: 48px;
-            line-height: 1.6;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Chat Input */
-        .chat-input-section {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px 20px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), transparent);
-            border-radius: 16px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .input-container:focus-within {
-            border-color: var(--accent-color);
-            box-shadow: 
-                0 0 0 4px rgba(255, 165, 0, 0.15),
-                0 8px 32px rgba(255, 165, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .input-container:focus-within::before {
-            opacity: 1;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 16px;
-            outline: none;
-            font-family: inherit;
-            font-weight: 400;
-        }
-
-        .chat-input::placeholder {
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        .input-actions {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-left: 16px;
         }
 
-        .input-btn {
-            width: 32px;
-            height: 32px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-size: 14px;
-        }
-
-        .input-btn:hover {
+        .message-counter {
             background: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
-            transform: translateY(-1px);
-        }
-
-        .send-btn {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #000;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-        }
-
-        .send-btn:hover {
-            background: linear-gradient(135deg, var(--accent-hover), var(--accent-color));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-        }
-
-        /* Agent Cards */
-        .agents-section {
-            width: 100%;
-            max-width: 900px;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
-        }
-
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .agent-card {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .agent-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 165, 0, 0.05), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .agent-card:hover {
-            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
-            border-color: var(--accent-color);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.2),
-                0 8px 16px rgba(255, 165, 0, 0.1);
-        }
-
-        .agent-card:hover::before {
-            opacity: 1;
-        }
-
-        .agent-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 12px;
-        }
-
-        .agent-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: white;
+            padding: 4px 8px;
             border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .chat-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #000;
-            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-            transition: all 0.3s ease;
+            gap: 8px;
         }
 
-        .agent-card:hover .agent-icon {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
-        }
-
-        .agent-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
-        }
-
-        .agent-card:hover .agent-name {
-            color: var(--accent-color);
-        }
-
-        .agent-description {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            transition: color 0.3s ease;
-        }
-
-        .agent-card:hover .agent-description {
-            color: var(--text-secondary);
-        }
-
-        /* Back Button */
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .chat-action-btn {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 8px 12px;
             color: var(--text-secondary);
-            text-decoration: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: all 0.3s ease;
             font-size: 14px;
-            transition: all 0.2s ease;
         }
 
-        .back-btn:hover {
+        .chat-action-btn:hover {
             background: var(--bg-tertiary);
             color: var(--text-primary);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .main-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
-            }
-
-            .main-title {
-                font-size: 24px;
-            }
-
-            .agents-grid {
-                grid-template-columns: 1fr;
-            }
+        .chat-action-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--accent-color);
         }
 
-        /* Floating Particles Background */
-        .particles {
+        .chat-action-btn.primary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* API Configuration Modal */
+        .api-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 6s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Status Indicator */
-        .status-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            backdrop-filter: blur(10px);
+            justify-content: center;
             z-index: 1000;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .api-modal.hidden {
+            display: none;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.2);
-            }
+        .api-modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .api-modal h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-            border-radius: 4px;
+        .api-modal p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--border-color), var(--accent-color));
-            border-radius: 4px;
+        .api-input {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-family: monospace;
+        }
+
+        .api-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .api-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .api-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+        .api-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
         }
 
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
+        .api-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .api-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .api-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            z-index: 999;
+        }
+
+        .api-status.connected {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .api-status.disconnected {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .ai-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
             border-radius: 50%;
-            border-top-color: var(--accent-color);
-            animation: spin 1s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .ai-avatar::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: ripple 2s infinite;
+        }
+
+        .ai-avatar i {
+            font-size: 48px;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .greeting {
+            margin-bottom: 16px;
+        }
+
+        .greeting h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .greeting p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Suggestions */
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 40px 0;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .suggestion-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suggestion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+        }
+
+        .suggestion-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .suggestion-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .suggestion-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 16px 60px 16px 60px;
+            font-size: 16px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .voice-button {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .voice-button:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .voice-button.active {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: pulse-red 1s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .send-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .greeting h1 {
+                font-size: 36px;
+            }
+
+            .greeting p {
+                font-size: 20px;
+            }
+
+            .suggestions {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .bottom-nav {
+                gap: 20px;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-element {
+            filter: blur(8px);
+            opacity: 0;
+            transition: filter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-element.visible {
+            filter: blur(0px);
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <div class="logo-icon">🤖</div>
-            <div class="logo-text">Axoma IA</div>
-        </div>
-        <div class="header-actions">
-            <button class="header-btn" title="Configurações">
-                <i class="fas fa-cog"></i>
-            </button>
-            <button class="header-btn" title="Notificações">
-                <i class="fas fa-bell"></i>
-            </button>
-            <button class="header-btn" title="Ajuda">
-                <i class="fas fa-question"></i>
-            </button>
-            <button class="header-btn" title="Fechar">
-                <i class="fas fa-times"></i>
-            </button>
-            <button class="upgrade-btn">Upgrade</button>
-        </div>
-    </header>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                AI Assistant
+            </div>
+            <div class="user-avatar">M</div>
+        </header>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-section">
-            <div class="sidebar-title">Navegação</div>
-            <div class="sidebar-item active">
-                <i class="fas fa-comments"></i>
-                <span>Chats</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-star"></i>
-                <span>Favoritos</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-history"></i>
-                <span>Histórico</span>
-            </div>
+        <!-- API Status -->
+        <div class="api-status disconnected" id="apiStatus">
+            <i class="fas fa-circle"></i> Gemini 2.0 Flash: Desconectado
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-title">Ferramentas</div>
-            <div class="sidebar-item">
-                <i class="fas fa-dumbbell"></i>
-                <span>Treinos</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-apple-alt"></i>
-                <span>Nutrição</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Progresso</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-calendar"></i>
-                <span>Agenda</span>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <div class="sidebar-title">Configurações</div>
-            <div class="sidebar-item">
-                <i class="fas fa-user"></i>
-                <span>Perfil</span>
-            </div>
-            <div class="sidebar-item">
-                <i class="fas fa-cog"></i>
-                <span>Configurações</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Back Button -->
-        <a href="dashboard.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i>
-            <span>Voltar</span>
-        </a>
-
-                <!-- Welcome Screen -->
-        <div class="welcome-screen" id="welcome-screen">
-            <div class="main-icon">🤖</div>
-            <h1 class="main-title">Como Podemos Te Ajudar?</h1>
-            <p class="main-subtitle">Módulos inteligentes prontos para agir como Agentes de IA para Ciência</p>
-
-            <!-- Chat Input -->
-            <div class="chat-input-section">
-                <div class="input-container">
-                    <input type="text" class="chat-input" placeholder="Pergunte qualquer coisa..." id="main-input">
-                    <div class="input-actions">
-                        <button class="input-btn" title="Anexar">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <button class="input-btn send-btn" title="Enviar" onclick="handleSend()">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Agent Cards -->
-            <div class="agents-section">
-                <div class="agents-grid">
-                    <div class="agent-card" onclick="selectAgent('training')">
-                        <div class="agent-header">
-                            <div class="agent-icon">📊</div>
-                            <div class="agent-name">Training Agent</div>
-                        </div>
-                        <div class="agent-description">Análise inteligente de treinos e performance</div>
-                    </div>
-
-                    <div class="agent-card" onclick="selectAgent('privacy')">
-                        <div class="agent-header">
-                            <div class="agent-icon">🔒</div>
-                            <div class="agent-name">Privacy Agent</div>
-                        </div>
-                        <div class="agent-description">Proteção e privacidade dos seus dados</div>
-                    </div>
-
-                    <div class="agent-card" onclick="selectAgent('tools')">
-                        <div class="agent-header">
-                            <div class="agent-icon">🛠️</div>
-                            <div class="agent-name">Tools Agent</div>
-                        </div>
-                        <div class="agent-description">Ferramentas avançadas de fitness</div>
-                    </div>
-
-                    <div class="agent-card" onclick="selectAgent('knowledge')">
-                        <div class="agent-header">
-                            <div class="agent-icon">🧠</div>
-                            <div class="agent-name">Knowledge Agent</div>
-                        </div>
-                        <div class="agent-description">Base de conhecimento em exercícios</div>
-                    </div>  
+        <!-- API Configuration Modal -->
+        <div class="api-modal" id="apiModal">
+            <div class="api-modal-content">
+                <h3>Configurar Google Gemini 2.0 Flash</h3>
+                <p>Para usar o modelo mais avançado da Google, configure sua chave da API do Gemini 2.0 Flash.</p>
+                <p><strong>Como obter:</strong><br>
+                1. Acesse <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: var(--accent-color);">Google AI Studio</a><br>
+                2. Crie uma nova API Key<br>
+                3. Cole a chave abaixo</p>
+                
+                <input type="password" class="api-input" id="apiKeyInput" placeholder="Cole sua API Key do Gemini aqui...">
+                
+                <div class="api-buttons">
+                    <button class="api-btn secondary" id="skipApiBtn">Usar Modo Demo</button>
+                    <button class="api-btn primary" id="saveApiBtn">Salvar e Conectar</button>
                 </div>
             </div>
         </div>
+
+        <!-- Main Content -->
+        <main class="main-content scroll-element" id="welcomeScreen">
+            <div class="ai-avatar">
+                <i class="fas fa-smile"></i>
+            </div>
+            
+            <div class="greeting">
+                <h1>Olá! Sou o Opus,</h1>
+                <p>Seu personal trainer virtual da Axoma</p>
+            </div>
+
+            <div class="suggestions">
+                <div class="suggestion-card scroll-element">
+                    <h3>💪 Treino para Iniciantes</h3>
+                    <p>Monte seu primeiro programa de exercícios</p>
+                </div>
+                <div class="suggestion-card scroll-element">
+                    <h3>🥗 Dieta para Hipertrofia</h3>
+                    <p>Alimentação ideal para ganhar massa</p>
+                </div>
+                <div class="suggestion-card scroll-element">
+                    <h3>🔥 Plano de Emagrecimento</h3>
+                    <p>Perca peso de forma sustentável</p>
+                </div>
+                <div class="suggestion-card scroll-element">
+                    <h3>🏃 Cardio Eficiente</h3>
+                    <p>Melhore seu condicionamento físico</p>
+                </div>
+                <div class="suggestion-card scroll-element">
+                    <h3>🧘 Recuperação e Descanso</h3>
+                    <p>Otimize seus resultados com descanso</p>
+                </div>
+                <div class="suggestion-card scroll-element">
+                    <h3>📊 Acompanhar Progresso</h3>
+                    <p>Como medir seus resultados</p>
+                </div>
+            </div>
+        </main>
 
         <!-- Chat Interface -->
-        <div class="chat-interface" id="chat-interface" style="display: none;">
+        <div class="chat-interface" id="chatInterface">
             <div class="chat-header">
-                <div class="chat-agent-info">
-                    <div class="agent-avatar" id="chat-agent-avatar">🤖</div>
-                    <div class="agent-details">
-                        <h3 id="chat-agent-name">Axoma IA</h3>
-                        <p id="chat-agent-status">Online • Pronto para ajudar</p>
-                    </div>
-                </div>
+                <h2 class="chat-title">
+                    💬 Chat com Opus
+                    <span class="message-counter" id="messageCounter">0 mensagens</span>
+                </h2>
                 <div class="chat-actions">
-                    <button class="chat-action-btn" onclick="clearChat()" title="Limpar chat">
+                    <button class="chat-action-btn" id="clearChatBtn">
                         <i class="fas fa-trash"></i>
+                        <span>Limpar</span>
                     </button>
-                    <button class="chat-action-btn" onclick="goBackToWelcome()" title="Voltar">
+                    <button class="chat-action-btn" id="exportChatBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Exportar</span>
+                    </button>
+                    <button class="chat-action-btn primary" id="backButton">
                         <i class="fas fa-arrow-left"></i>
+                        <span>Voltar</span>
                     </button>
                 </div>
             </div>
-
-            <div class="chat-messages" id="chat-messages">
-                <!-- Mensagens aparecerão aqui -->
-            </div>
-
-            <div class="chat-input-area">
-                <div class="input-container">
-                    <input type="text" class="chat-input" placeholder="Digite sua mensagem..." id="chat-input">
-                    <div class="input-actions">
-                        <button class="input-btn" title="Anexar">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <button class="input-btn send-btn" title="Enviar" onclick="sendMessage()">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
             </div>
         </div>
-    </main>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <button class="voice-button" id="voiceButton" title="Conversa por voz">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <input type="text" class="chat-input" placeholder="Digite sua mensagem..." id="chatInput">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-tasks"></i>
+                <span>Tasks</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </nav>
+    </div>
 
     <script>
-        // Handle send button
-        function handleSend() {
-            const input = document.getElementById('main-input');
-            const message = input.value.trim();
-            
-            if (message) {
-                startChat(message);
-                input.value = '';
-            }
-        }
-
-        // Handle agent selection
-        function selectAgent(agentType) {
-            const agentInfo = {
-                'training': {
-                    name: 'Training Agent',
-                    avatar: '📊',
-                    message: 'Olá! Sou o Training Agent. Como posso ajudar com seus treinos hoje?'
-                },
-                'privacy': {
-                    name: 'Privacy Agent',
-                    avatar: '🔒',
-                    message: 'Olá! Sou o Privacy Agent. Vou garantir que seus dados estejam seguros.'
-                },
-                'tools': {
-                    name: 'Tools Agent',
-                    avatar: '🛠️',
-                    message: 'Olá! Sou o Tools Agent. Que ferramenta você gostaria de usar?'
-                },
-                'knowledge': {
-                    name: 'Knowledge Agent',
-                    avatar: '🧠',
-                    message: 'Olá! Sou o Knowledge Agent. Que conhecimento você busca?'
-                }
-            };
-            
-            const agent = agentInfo[agentType];
-            startChat(agent.message, agent.name, agent.avatar);
-        }
-
-        // Start chat interface
-        function startChat(initialMessage, agentName = 'Axoma IA', agentAvatar = '🤖') {
-            // Hide welcome screen
-            document.getElementById('welcome-screen').style.display = 'none';
-            
-            // Show chat interface
-            const chatInterface = document.getElementById('chat-interface');
-            chatInterface.style.display = 'flex';
-            
-            // Update agent info
-            document.getElementById('chat-agent-name').textContent = agentName;
-            document.getElementById('chat-agent-avatar').textContent = agentAvatar;
-            
-            // Clear previous messages
-            const messagesContainer = document.getElementById('chat-messages');
-            messagesContainer.innerHTML = '';
-            
-            // Add initial message
-            if (initialMessage) {
-                addMessage(initialMessage, 'ai');
-            }
-            
-            // Focus on input
-            setTimeout(() => {
-                document.getElementById('chat-input').focus();
-            }, 100);
-        }
-
-        // Send message
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message
-            addMessage(message, 'user');
-            input.value = '';
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            // Simulate AI response
-            setTimeout(() => {
-                hideTypingIndicator();
-                const response = generateResponse(message);
-                addMessage(response, 'ai');
-            }, 1500);
-        }
-
-        // Add message to chat
-        function addMessage(text, sender) {
-            const messagesContainer = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const avatar = sender === 'ai' ? 
-                document.getElementById('chat-agent-avatar').textContent : 
-                '👤';
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
-                <div class="message-content">${text}</div>
-            `;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Show typing indicator
-        function showTypingIndicator() {
-            const messagesContainer = document.getElementById('chat-messages');
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typing-indicator';
-            
-            typingDiv.innerHTML = `
-                <div class="message-avatar">${document.getElementById('chat-agent-avatar').textContent}</div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span>Digitando</span>
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                </div>
-            `;
-            
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Hide typing indicator
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-
-        // Generate AI response
-        function generateResponse(message) {
-            const responses = [
-                'Entendi sua pergunta! Com base nos seus dados de treino, posso sugerir algumas melhorias.',
-                'Ótima questão! Vou analisar seu histórico e dar uma recomendação personalizada.',
-                'Interessante! Baseado no seu perfil, tenho algumas sugestões que podem ajudar.',
-                'Perfeito! Vou usar minha base de conhecimento para te dar a melhor resposta.',
-                'Excelente pergunta! Deixe-me processar seus dados e criar uma resposta personalizada.',
-                'Baseado no seu histórico de treinos, recomendo ajustar a intensidade dos exercícios.',
-                'Analisando seus dados, vejo que você tem potencial para melhorar ainda mais!',
-                'Sua dedicação é impressionante! Vou sugerir algumas otimizações para seus treinos.'
-            ];
-            
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-
-        // Go back to welcome screen
-        function goBackToWelcome() {
-            document.getElementById('chat-interface').style.display = 'none';
-            document.getElementById('welcome-screen').style.display = 'block';
-        }
-
-        // Clear chat
-        function clearChat() {
-            if (confirm('Tem certeza que deseja limpar o chat?')) {
-                document.getElementById('chat-messages').innerHTML = '';
-            }
-        }
-
-        // Handle Enter key in main input
-        document.getElementById('main-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleSend();
-            }
-        });
-
-        // Handle Enter key in chat input
+        // Global variables
+        let isInChatMode = false;
+        let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
+        
+        // Google Gemini API Configuration
+        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+        
+        // Scroll Animation Observer
         document.addEventListener('DOMContentLoaded', function() {
-            // Add event listener for chat input when it's created
-            document.addEventListener('keypress', function(e) {
-                if (e.target.id === 'chat-input' && e.key === 'Enter') {
+            const scrollElements = document.querySelectorAll('.scroll-element');
+            
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            scrollElements.forEach(element => {
+                scrollObserver.observe(element);
+            });
+
+            // Elements
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const chatInterface = document.getElementById('chatInterface');
+            const chatMessages = document.getElementById('chatMessages');
+            const backButton = document.getElementById('backButton');
+            const clearChatBtn = document.getElementById('clearChatBtn');
+            const exportChatBtn = document.getElementById('exportChatBtn');
+            const messageCounter = document.getElementById('messageCounter');
+            const voiceButton = document.getElementById('voiceButton');
+
+            // Chat functionality
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Switch to chat mode if not already
+                    if (!isInChatMode) {
+                        switchToChatMode();
+                    }
+                    
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    
+                    // Show typing indicator
+                    showTypingIndicator();
+                    
+                    try {
+                        // Get AI response
+                        const response = await generateAIResponse(message);
+                        hideTypingIndicator();
+                        addMessage(response, 'ai');
+                    } catch (error) {
+                        console.error('Error getting AI response:', error);
+                        hideTypingIndicator();
+                        addMessage('Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.', 'ai');
+                    }
+                }
+            }
+
+            function switchToChatMode() {
+                isInChatMode = true;
+                welcomeScreen.style.display = 'none';
+                chatInterface.classList.add('active');
+            }
+
+            function switchToWelcomeMode() {
+                isInChatMode = false;
+                welcomeScreen.style.display = 'flex';
+                chatInterface.classList.remove('active');
+                // Clear chat messages
+                chatMessages.innerHTML = '';
+                updateMessageCounter();
+            }
+
+            function updateMessageCounter() {
+                const messageCount = chatMessages.querySelectorAll('.message').length;
+                messageCounter.textContent = `${messageCount} mensagem${messageCount !== 1 ? 's' : ''}`;
+            }
+
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = sender === 'ai' ? 
+                    '<i class="fas fa-robot"></i>' : 
+                    '<i class="fas fa-user"></i>';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${avatar}</div>
+                    <div class="message-content">${text}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                updateMessageCounter();
+            }
+
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typingIndicator';
+                
+                typingDiv.innerHTML = `
+                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="typing-content">
+                        <span>AI is typing</span>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            async function generateAIResponse(userMessage) {
+                try {
+                    // Check if API key is configured
+                    if (!GEMINI_API_KEY || GEMINI_API_KEY.length < 10) {
+                        return getFallbackResponse(userMessage);
+                    }
+
+                    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `Você é Opus, personal trainer virtual especialista da Axoma. Use o poder do Gemini 2.0 Flash para dar respostas precisas sobre fitness.
+
+🎯 MISSÃO: Ser o melhor assistente de fitness do Brasil
+
+📋 DIRETRIZES:
+• Responda APENAS sobre: treino, nutrição, emagrecimento, hipertrofia, cardio, suplementos, recuperação
+• Português brasileiro, tom amigável e motivador
+• Máximo 4 frases, seja específico com números e dados
+• Se não for fitness: "Sou especialista em fitness. Como posso te ajudar com treino, alimentação ou bem-estar?"
+
+💡 EXEMPLOS DE EXCELÊNCIA:
+🏋️ Treino: "Para iniciantes: 3x/semana, exercícios compostos (agachamento, supino, remada). 3 séries x 8-12 reps, descanso 60-90s. Progressão: +2,5kg quando conseguir 12 reps em todas as séries."
+
+🥗 Nutrição: "Hipertrofia: 2-2,5g proteína/kg + 4-6g carbo/kg + 1g gordura/kg. Exemplo 70kg: 140g proteína (frango, ovos), 350g carbo (arroz, batata), 70g gordura (azeite, castanhas). 5-6 refeições/dia."
+
+🔥 Emagrecimento: "Déficit 300-500 cal/dia = 0,5kg/semana. Treino força 3x + cardio 2x (HIIT 15min ou moderado 30min). Priorize proteína 1,8g/kg para preservar massa magra."
+
+PERGUNTA: "${userMessage}"
+
+RESPOSTA ESPECIALIZADA:`
+                                }]
+                            }],
+                            generationConfig: {
+                                temperature: 0.4,
+                                topK: 40,
+                                topP: 0.9,
+                                maxOutputTokens: 300,
+                                candidateCount: 1
+                            }
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                        const aiResponse = data.candidates[0].content.parts[0].text;
+                        console.log('Resposta original do Gemini:', aiResponse);
+                        console.log('Pergunta do usuário:', userMessage);
+                        
+                        // Validar se a resposta é sobre fitness
+                        if (isValidFitnessResponse(aiResponse, userMessage)) {
+                            console.log('✅ Resposta aprovada');
+                            return aiResponse;
+                        } else {
+                            console.log('❌ Resposta rejeitada, usando fallback');
+                            return getFallbackResponse(userMessage);
+                        }
+                    } else {
+                        throw new Error('Invalid response format from Gemini API');
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    return getFallbackResponse(userMessage);
+                }
+            }
+
+            function isValidFitnessResponse(response, userMessage) {
+                const fitnessKeywords = [
+                    'treino', 'exercício', 'musculação', 'cardio', 'força', 'hipertrofia',
+                    'dieta', 'nutrição', 'proteína', 'carboidrato', 'caloria', 'alimentação',
+                    'peso', 'emagrecer', 'massa', 'músculo', 'gordura', 'queimar',
+                    'série', 'repetição', 'descanso', 'recuperação', 'suplemento',
+                    'academia', 'fitness', 'saúde', 'bem-estar', 'condicionamento'
+                ];
+                
+                const lowerResponse = response.toLowerCase();
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Se a pergunta é sobre fitness, a resposta deve conter pelo menos uma palavra-chave
+                const messageHasFitness = fitnessKeywords.some(keyword => lowerMessage.includes(keyword));
+                const responseHasFitness = fitnessKeywords.some(keyword => lowerResponse.includes(keyword));
+                
+                // Se a resposta é muito genérica ou não tem relação com fitness
+                const genericPhrases = [
+                    'como posso ajudar', 'não entendi', 'pode esclarecer', 'preciso de mais informações',
+                    'desculpe', 'não sei', 'não posso', 'não consigo'
+                ];
+                
+                const isGeneric = genericPhrases.some(phrase => lowerResponse.includes(phrase));
+                
+                // Validação: se pergunta é sobre fitness, resposta deve ser sobre fitness e não genérica
+                if (messageHasFitness) {
+                    return responseHasFitness && !isGeneric && response.length > 20;
+                }
+                
+                // Se pergunta não é sobre fitness, aceitar redirecionamento
+                return true;
+            }
+
+            function getFallbackResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Respostas específicas por categoria
+                if (lowerMessage.includes('treino') || lowerMessage.includes('exercício') || lowerMessage.includes('workout') || lowerMessage.includes('exercise')) {
+                    const workoutResponses = [
+                        "Para um treino eficaz, recomendo 3-4x por semana combinando musculação e cardio. Comece com exercícios básicos como agachamento, flexão e prancha. Qual seu objetivo principal?",
+                        "O melhor treino é aquele que você consegue manter consistente! Sugiro começar com 30-45 minutos, 3x na semana. Quer dicas para iniciantes ou já tem experiência?",
+                        "Para resultados rápidos, foque em exercícios compostos: agachamento, levantamento terra, supino. Combine com 20 min de cardio. Qual sua disponibilidade semanal?"
+                    ];
+                    return workoutResponses[Math.floor(Math.random() * workoutResponses.length)];
+                    
+                } else if (lowerMessage.includes('dieta') || lowerMessage.includes('nutrição') || lowerMessage.includes('diet') || lowerMessage.includes('nutrition') || lowerMessage.includes('comer') || lowerMessage.includes('alimentação')) {
+                    const nutritionResponses = [
+                        "Para uma alimentação saudável: priorize proteínas (1,6-2g por kg), carboidratos complexos e gorduras boas. Beba 2-3L de água diariamente. Qual seu objetivo: ganhar massa ou emagrecer?",
+                        "A regra 80/20 funciona bem: 80% alimentos naturais, 20% flexibilidade. Inclua proteína em todas as refeições e evite ultraprocessados. Precisa de um cardápio específico?",
+                        "Nutrição é 70% do resultado! Foque em: ovos, frango, peixe, arroz integral, batata doce, frutas e vegetais. Faça 4-5 refeições menores. Quer dicas de preparo?"
+                    ];
+                    return nutritionResponses[Math.floor(Math.random() * nutritionResponses.length)];
+                    
+                } else if (lowerMessage.includes('peso') || lowerMessage.includes('emagrecer') || lowerMessage.includes('weight') || lowerMessage.includes('lose') || lowerMessage.includes('gordura')) {
+                    const weightLossResponses = [
+                        "Para emagrecer de forma saudável: déficit calórico de 300-500 cal/dia, treino de força + cardio, e paciência. Meta realista: 0,5-1kg por semana. Qual seu peso atual e meta?",
+                        "Emagrecimento sustentável combina: alimentação balanceada, exercícios regulares e bom sono. Evite dietas extremas! Prefere treino em casa ou academia?",
+                        "O segredo é consistência! Reduza açúcar e frituras, aumente proteína e fibras, caminhe 8-10k passos/dia. Resultados aparecem em 4-6 semanas. Vamos começar?"
+                    ];
+                    return weightLossResponses[Math.floor(Math.random() * weightLossResponses.length)];
+                    
+                } else if (lowerMessage.includes('músculo') || lowerMessage.includes('força') || lowerMessage.includes('muscle') || lowerMessage.includes('strength') || lowerMessage.includes('hipertrofia') || lowerMessage.includes('massa')) {
+                    const muscleResponses = [
+                        "Para ganhar massa muscular: treino de força 4-5x/semana, proteína 2g/kg, superávit calórico de 200-400 cal, e descanso adequado. Já treina há quanto tempo?",
+                        "Hipertrofia requer: sobrecarga progressiva, 8-12 repetições, 3-4 séries, descanso 48-72h entre grupos musculares. Suplementação com whey protein ajuda. Qual grupo quer focar?",
+                        "Construir músculos leva tempo! Foque em exercícios básicos, aumente carga gradualmente, coma bem e durma 7-8h. Resultados visíveis em 8-12 semanas. Precisa de um programa?"
+                    ];
+                    return muscleResponses[Math.floor(Math.random() * muscleResponses.length)];
+                    
+                } else if (lowerMessage.includes('cardio') || lowerMessage.includes('aeróbico') || lowerMessage.includes('corrida') || lowerMessage.includes('caminhada')) {
+                    const cardioResponses = [
+                        "Para cardio eficiente: 20-30 min, 3-4x por semana. Comece com caminhada rápida, evolua para corrida. Mantenha frequência cardíaca entre 60-80% da máxima. Prefere HIIT ou steady state?",
+                        "Cardio queima gordura e melhora condicionamento! Alterne: segunda (HIIT 15 min), quarta (corrida 25 min), sexta (bike 30 min). Sempre após o treino de força!",
+                        "Para iniciantes: caminhada 30 min diários. Intermediário: corrida 20 min + bike 15 min. Avançado: HIIT 4x4 min. Qual seu nível atual?"
+                    ];
+                    return cardioResponses[Math.floor(Math.random() * cardioResponses.length)];
+                    
+                } else if (lowerMessage.includes('suplemento') || lowerMessage.includes('whey') || lowerMessage.includes('creatina') || lowerMessage.includes('vitamina')) {
+                    const supplementResponses = [
+                        "Suplementos essenciais: Whey protein (25-30g pós-treino), Creatina (3-5g diários), Multivitamínico. Primeiro foque na alimentação, depois suplemente as lacunas!",
+                        "Para hipertrofia: Whey + Creatina + BCAA. Para emagrecimento: Whey + L-Carnitina + Cafeína. Sempre com orientação! Qual seu objetivo principal?",
+                        "Básico funciona: Whey protein, Creatina monohidratada, Ômega 3. Evite fórmulas milagrosas! 80% é dieta e treino, 20% suplementação. Precisa de indicações específicas?"
+                    ];
+                    return supplementResponses[Math.floor(Math.random() * supplementResponses.length)];
+                    
+                } else if (lowerMessage.includes('descanso') || lowerMessage.includes('sono') || lowerMessage.includes('recuperação') || lowerMessage.includes('overtraining')) {
+                    const recoveryResponses = [
+                        "Recuperação é quando o músculo cresce! Durma 7-9h, descanse 48-72h entre grupos musculares, hidrate-se bem. Sinais de overtraining: fadiga, irritabilidade, queda de performance.",
+                        "Sono de qualidade = resultados melhores! Evite telas 1h antes de dormir, quarto escuro e fresco, mesma rotina diária. Músculos crescem no descanso, não no treino!",
+                        "Recuperação ativa funciona: caminhada leve, alongamento, yoga nos dias de descanso. Escute seu corpo: dor muscular normal, dor articular = pare. Como está seu sono?"
+                    ];
+                    return recoveryResponses[Math.floor(Math.random() * recoveryResponses.length)];
+                    
+                } else if (lowerMessage.includes('motivação') || lowerMessage.includes('desânimo') || lowerMessage.includes('preguiça') || lowerMessage.includes('começar')) {
+                    const motivationResponses = [
+                        "A motivação vem da ação! Comece pequeno: 15 min de caminhada hoje. O importante é criar o hábito. Cada dia é uma nova oportunidade de cuidar de si!",
+                        "Lembre-se: você não precisa ser perfeito, só precisa começar! Defina uma meta pequena para hoje e celebre cada conquista. Estou aqui para te apoiar!",
+                        "O primeiro passo é sempre o mais difícil, mas você é mais forte do que imagina! Que tal começarmos com algo simples? Qual atividade te daria prazer?"
+                    ];
+                    return motivationResponses[Math.floor(Math.random() * motivationResponses.length)];
+                    
+                } else {
+                    // Respostas gerais redirecionando para fitness
+                    const generalResponses = [
+                        "Olá! Sou a Axoma IA, especialista em fitness e bem-estar. Como posso te ajudar com seus objetivos de saúde hoje? Treino, nutrição ou motivação?",
+                        "Oi! Estou aqui para te ajudar com fitness, nutrição e bem-estar. Qual é seu principal objetivo: emagrecer, ganhar massa muscular ou melhorar o condicionamento?",
+                        "Seja bem-vindo(a)! Sou especialista em fitness e posso te ajudar com treinos, alimentação saudável e motivação. Por onde gostaria de começar?",
+                        "Olá! Como seu assistente de fitness, posso te ajudar a criar um plano personalizado. Qual seu maior desafio atual: falta de tempo, motivação ou conhecimento?"
+                    ];
+                    return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+                }
+            }
+
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
                     sendMessage();
                 }
             });
-        });
 
-        // Mobile sidebar toggle
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
-        }
+            // Voice button functionality
+            voiceButton.addEventListener('click', function() {
+                // Open voice chat in new window
+                const voiceChatUrl = 'voice-chat.html';
+                const voiceWindow = window.open(
+                    voiceChatUrl, 
+                    'VoiceChat', 
+                    'width=800,height=600,resizable=yes,scrollbars=yes'
+                );
+                
+                if (voiceWindow) {
+                    voiceWindow.focus();
+                } else {
+                    alert('Por favor, permita pop-ups para abrir a conversa por voz.');
+                }
+            });
 
-        // Add mobile menu button for small screens
-        if (window.innerWidth <= 768) {
-            const mobileBtn = document.createElement('button');
-            mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            mobileBtn.style.cssText = `
-                position: fixed;
-                top: 70px;
-                left: 20px;
-                background: var(--bg-secondary);
-                border: 1px solid var(--border-color);
-                border-radius: 8px;
-                padding: 8px;
-                color: var(--text-secondary);
-                cursor: pointer;
-                z-index: 1001;
-            `;
-            mobileBtn.onclick = toggleSidebar;
-            document.body.appendChild(mobileBtn);
-        }
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.createElement('div');
-            particlesContainer.className = 'particles';
-            document.body.appendChild(particlesContainer);
+            backButton.addEventListener('click', switchToWelcomeMode);
 
-            function createParticle() {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particlesContainer.appendChild(particle);
+            // Clear chat functionality
+            clearChatBtn.addEventListener('click', function() {
+                if (confirm('Tem certeza que deseja limpar toda a conversa?')) {
+                    chatMessages.innerHTML = '';
+                    updateMessageCounter();
+                }
+            });
 
-                setTimeout(() => {
-                    particle.remove();
-                }, 6000);
+            // Export chat functionality
+            exportChatBtn.addEventListener('click', function() {
+                const messages = chatMessages.querySelectorAll('.message');
+                if (messages.length === 0) {
+                    alert('Não há mensagens para exportar!');
+                    return;
+                }
+
+                let chatText = '=== CONVERSA COM OPUS - AXOMA IA ===\n';
+                chatText += `Data: ${new Date().toLocaleString('pt-BR')}\n\n`;
+
+                messages.forEach(message => {
+                    const isUser = message.classList.contains('user');
+                    const content = message.querySelector('.message-content').textContent;
+                    const sender = isUser ? 'VOCÊ' : 'OPUS';
+                    chatText += `${sender}: ${content}\n\n`;
+                });
+
+                // Create and download file
+                const blob = new Blob([chatText], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `conversa-opus-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // Suggestion cards click
+            document.querySelectorAll('.suggestion-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const text = this.querySelector('h3').textContent + ' ' + this.querySelector('p').textContent;
+                    chatInput.value = text;
+                    chatInput.focus();
+                });
+            });
+
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Handle navigation actions
+                    const navText = this.querySelector('span').textContent;
+                    if (navText === 'Chat') {
+                        // Already in chat mode or welcome screen
+                    } else if (navText === 'Tasks') {
+                        alert('Tasks feature coming soon!');
+                    } else if (navText === 'Settings') {
+                        showApiModal();
+                    }
+                });
+            });
+
+            // API Configuration
+            const apiModal = document.getElementById('apiModal');
+            const apiStatus = document.getElementById('apiStatus');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const saveApiBtn = document.getElementById('saveApiBtn');
+            const skipApiBtn = document.getElementById('skipApiBtn');
+
+            function showApiModal() {
+                apiModal.classList.remove('hidden');
+                apiKeyInput.value = GEMINI_API_KEY;
             }
 
-            // Create particles periodically
-            setInterval(createParticle, 300);
-        }
+            function hideApiModal() {
+                apiModal.classList.add('hidden');
+            }
 
-        // Initialize particles
-        createParticles();
-
-        // Add typing effect to title
-        function typeWriter(element, text, speed = 100) {
-            let i = 0;
-            element.innerHTML = '';
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
+            function updateApiStatus() {
+                if (GEMINI_API_KEY && GEMINI_API_KEY.length > 10) {
+                    apiStatus.className = 'api-status connected';
+                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> Gemini 2.0 Flash: Conectado';
+                } else {
+                    apiStatus.className = 'api-status disconnected';
+                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> Gemini 2.0 Flash: Modo Demo';
                 }
             }
+
+            function saveApiKey() {
+                const newApiKey = apiKeyInput.value.trim();
+                if (newApiKey && newApiKey.length > 10) {
+                    GEMINI_API_KEY = newApiKey;
+                    localStorage.setItem('gemini_api_key', GEMINI_API_KEY);
+                    updateApiStatus();
+                    hideApiModal();
+                    alert('API Key salva com sucesso! Agora você pode usar respostas reais da IA.');
+                } else {
+                    alert('Por favor, insira uma API Key válida.');
+                }
+            }
+
+            // Event listeners for API modal
+            saveApiBtn.addEventListener('click', saveApiKey);
+            skipApiBtn.addEventListener('click', hideApiModal);
             
-            type();
-        }
+            // Close modal when clicking outside
+            apiModal.addEventListener('click', function(e) {
+                if (e.target === apiModal) {
+                    hideApiModal();
+                }
+            });
 
-        // Apply typing effect after page load
-        setTimeout(() => {
-            const title = document.querySelector('.main-title');
-            const originalText = title.textContent;
-            typeWriter(title, originalText, 80);
-        }, 1000);
+            // Show modal on first visit if no API key
+            if (!GEMINI_API_KEY || GEMINI_API_KEY.length < 10) {
+                setTimeout(showApiModal, 2000);
+            }
+
+            // Update initial status
+            updateApiStatus();
+        });
     </script>
-
-    <!-- Status Indicator -->
-    <div class="status-indicator">
-        <div class="status-dot"></div>
-        <span>Axoma IA Online</span>
-    </div>
 </body>
 </html> 

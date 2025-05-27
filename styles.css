@@ -255,6 +255,66 @@ header .container {
     text-align: center;
 }
 
+/* Rotating Text Animation */
+.rotating-text {
+    position: relative;
+    display: inline-block;
+    color: var(--light-text);
+    font-weight: 700;
+    min-width: 280px;
+    text-align: left;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 
+                 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+
+
+@keyframes blur-out {
+    0% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+    100% {
+        filter: blur(12px);
+        opacity: 0;
+    }
+}
+
+@keyframes focus-in {
+    0% {
+        filter: blur(12px);
+        opacity: 0;
+    }
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+.rotating-text.blur-out {
+    animation: blur-out 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.rotating-text.focus-in {
+    animation: focus-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* Scroll animations for page elements */
+.scroll-element {
+    filter: blur(8px);
+    opacity: 0;
+    transition: filter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-element.visible {
+    filter: blur(0px);
+    opacity: 1;
+}
+
 .categories-top,
 .categories-bottom {
     display: flex;
@@ -790,6 +850,12 @@ footer {
         font-size: 2.5rem;
     }
     
+    .rotating-text {
+        min-width: 180px;
+        font-size: 2.5rem;
+        color: var(--light-text);
+    }
+    
     .cta {
         padding: 1.5rem;
     }
@@ -809,5 +875,28 @@ footer {
     .footer-links {
         flex-direction: column;
         gap: 2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+    
+    .rotating-text {
+        min-width: 150px;
+        font-size: 2.2rem;
+        color: var(--light-text);
+    }
+    
+    .categories-top,
+    .categories-bottom {
+        gap: 15rem;
+    }
+    
+    .categories-top span,
+    .categories-bottom span {
+        font-size: 14px;
+        padding: 0.4rem 1rem;
     }
 } 
