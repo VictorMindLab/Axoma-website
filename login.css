@@ -1,69 +1,50 @@
-/* At the top of login.css or in a :root {} block */
+/* Zero-animation CSS for maximum performance */
 :root {
-    --login-primary-color: #007bff;
-    --input-group-border-color: #ffffff; /* A slightly softer grey for the main group border */
-    --input-group-bg-color: #ffedcb;
-    --input-group-focus-border-color: var(--login-primary-color);
-    --input-group-focus-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    --primary-color: #04692b;
+    --input-border: #4ab93f;
+    --input-bg: #ffedcb;
+    --input-focus: #a5b4fc;
+    --text-color: #37513b;
+    --label-color: #198d1e;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+}
 
-    --input-field-border-color: #4ab93f; /* Border for the actual input field/wrapper inside */
-    --input-field-bg-color: #ffedcb;    /* Background for the actual input field/wrapper (very light grey) */
-    --input-field-focus-border-color: #a5b4fc; /* A softer blue for field focus */
-    --input-field-focus-bg-color: #ffedcb;
+/* Only essential animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
-    --input-text-color: #37513b; /* Darker grey for text */
-    --input-placeholder-color: #368b21; /* Softer placeholder */
-    --label-text-color: #198d1e; /* Label color */
+* {
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    /* background-color: #f0f2f5; -- Removed original background color */
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     color: #333;
-
-    /* New background image styles */
     background-image: url('images/fundo_login.jpg');
-    background-size: cover; /* Faz a imagem cobrir toda a área */
-    background-position: center; /* Centraliza a imagem */
-    background-repeat: no-repeat; /* Evita que a imagem se repita */
-    background-attachment: fixed; /* Mantém o fundo fixo ao rolar (se houver rolagem) */
-
-    /* Initial state for full page fade-in */
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out; /* Adjust duration and easing as needed */
-}
-
-/* Class to apply when body is loaded */
-body.body-loaded {
-    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .login-container {
     display: flex;
-    background-color: #ffedcb;
+    background-color: var(--input-bg);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     width: 90%;
-    max-width: 1000px; /* Adjusted for better layout */
-
-    /* Initial state for page load animation */
-    opacity: 0;
-    transform: translateY(30px); /* Increased initial offset slightly for a bit more movement */
-    transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), 
-                transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-    will-change: opacity, transform; /* Hint for browser optimization */
-}
-
-/* State for when the page content is loaded/visible */
-.login-container.loaded {
-    opacity: 1;
-    transform: translateY(0);
+    max-width: 1000px;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .login-form-section {
@@ -75,11 +56,12 @@ body.body-loaded {
 
 .logo-container {
     margin-bottom: 20px;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .login-logo {
     height: 35px;
-    filter: invert(52%) sepia(43%) saturate(1383%) hue-rotate(78deg) brightness(97%) contrast(81%); /* Changed to green */
+    filter: invert(52%) sepia(43%) saturate(1383%) hue-rotate(78deg) brightness(97%) contrast(81%);
 }
 
 .login-form-section h2 {
@@ -87,12 +69,14 @@ body.body-loaded {
     font-weight: 600;
     margin-bottom: 8px;
     color: #065210;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .subtitle {
     font-size: 14px;
     color: #666666;
     margin-bottom: 30px;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .form-toggle {
@@ -101,25 +85,24 @@ body.body-loaded {
     border-radius: 8px;
     margin-bottom: 30px;
     overflow: hidden;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .toggle-btn {
     flex: 1;
     padding: 12px;
-    background-color: #ffedcb;
+    background-color: var(--input-bg);
     border: none;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     color: #555;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 .toggle-btn.active {
     background-color: #d0ff85;
     color: #269c1c;
     font-weight: 600;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
 }
 
 .toggle-btn:first-child {
@@ -127,30 +110,24 @@ body.body-loaded {
 }
 
 .input-group {
-    /* This is the main container for label + input field area */
-    background-color: var(--input-group-bg-color); 
-    padding: 0; 
+    background-color: var(--input-bg);
     margin-bottom: 20px;
     position: relative;
+    opacity: 0; /* JS will show it instantly */
 }
 
-/* Styles for optional sign-up fields for transition */
+/* Instant transitions for signup fields */
 .optional-signup-field {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    margin-bottom: 0; /* Collapse margin when hidden */
-    /* Shorter durations and consistent ease-out, added will-change */
-    transition: opacity 0.25s ease-out, 
-                max-height 0.3s ease-out, 
-                margin-bottom 0.25s ease-out;
-    will-change: opacity, max-height, margin-bottom; /* Hint for browser optimization */
+    margin-bottom: 0;
 }
 
 .optional-signup-field.visible {
     opacity: 1;
-    max-height: 120px; /* Adjust as needed */
-    margin-bottom: 20px; /* Restore original margin */
+    max-height: 120px;
+    margin-bottom: 20px;
 }
 
 .input-group label {
@@ -158,68 +135,57 @@ body.body-loaded {
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 8px;
-    color: var(--label-text-color);
+    color: var(--label-color);
 }
 
-/* Styling for the actual input fields (text, password) */
 .input-group input[type="text"],
 .input-group input[type="password"] {
     padding: 12px 14px;
-    border: 1px solid var(--input-field-border-color);
-    border-radius: 8px; /* Rounded corners for the field */
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
     font-size: 15px;
-    background-color: var(--input-field-bg-color);
+    background-color: var(--input-bg);
     outline: none;
-    color: var(--input-text-color);
+    color: var(--text-color);
     width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .input-group input[type="text"]:focus,
 .input-group input[type="password"]:focus {
-    border-color: var(--input-field-focus-border-color);
-    background-color: var(--input-field-focus-bg-color);
-    box-shadow: 0 0 0 0.2rem rgba(var(--input-field-focus-border-color), 0.25); /* Subtle glow using field focus color */
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 0.2rem rgba(165, 180, 252, 0.25);
 }
 
-/* Styling for the email input's wrapper */
 .input-icon-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid var(--input-field-border-color);
-    border-radius: 8px; /* Rounded corners for the wrapper */
-    background-color: var(--input-field-bg-color);
-    transition: border-color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    /* The input inside will be transparent on this background */
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background-color: var(--input-bg);
 }
 
 .input-icon-wrapper:focus-within {
-    border-color: var(--input-field-focus-border-color);
-    background-color: var(--input-field-focus-bg-color);
-    box-shadow: 0 0 0 0.2rem rgba(var(--input-field-focus-border-color), 0.25);
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 0.2rem rgba(165, 180, 252, 0.25);
 }
 
 .input-icon-wrapper input[type="email"] {
     flex-grow: 1;
     padding: 12px 14px;
-    padding-left: 40px; /* Make space for the icon */
+    padding-left: 40px;
     border: none;
     font-size: 15px;
-    background-color: transparent; /* Transparent on .input-icon-wrapper's background */
+    background-color: transparent;
     outline: none;
-    color: var(--input-text-color);
+    color: var(--text-color);
     width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px; /* Match wrapper's radius */
+    border-radius: 8px;
 }
 
-/* Placeholder styling */
-.input-group input[type="text"]::placeholder,
-.input-group input[type="password"]::placeholder,
-.input-icon-wrapper input[type="email"]::placeholder {
-    color: var(--input-placeholder-color);
+.input-group input::placeholder,
+.input-icon-wrapper input::placeholder {
+    color: #368b21;
     opacity: 1;
 }
 
@@ -232,26 +198,58 @@ body.body-loaded {
 .input-icon-wrapper .success-icon {
     position: absolute;
     right: 15px;
-    color: #28a745; /* Green check */
+    color: var(--success-color);
+    opacity: 0;
 }
-
 
 .btn-continue {
     width: 100%;
     padding: 14px;
-    background-color: #04692b;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
     margin-bottom: 30px;
+    opacity: 0; /* JS will show it instantly */
+    position: relative;
 }
 
 .btn-continue:hover {
-    background-color: hsl(98, 96%, 31%);
+    background-color: #0a7d36;
+}
+
+.btn-continue:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-continue.loading {
+    background-color: #0a7d36;
+}
+
+.btn-continue.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.btn-continue.success {
+    background-color: var(--success-color);
+}
+
+.btn-continue.error {
+    background-color: var(--error-color);
 }
 
 .social-login-divider {
@@ -261,6 +259,7 @@ body.body-loaded {
     color: #0d7524;
     font-size: 13px;
     margin-bottom: 20px;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .social-login-divider::before,
@@ -277,12 +276,12 @@ body.body-loaded {
 .social-login-buttons {
     display: flex;
     justify-content: center;
-    gap: 15px;
     margin-bottom: 30px;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .social-btn {
-    background-color: #ffedcb;
+    background-color: var(--input-bg);
     border: 1px solid #129c18;
     border-radius: 50%;
     width: 45px;
@@ -291,7 +290,7 @@ body.body-loaded {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    opacity: 0; /* JS will show it instantly */
 }
 
 .social-btn:hover {
@@ -306,10 +305,6 @@ body.body-loaded {
 
 .social-btn i {
     font-size: 20px;
-}
-
-.social-btn.google {
-    /* Specific styles if needed */
 }
 
 .social-btn.apple {
@@ -342,15 +337,27 @@ body.body-loaded {
     color: #0f7a0f;
     line-height: 1.6;
     text-align: center;
-    margin-top: auto; /* Pushes to the bottom */
+    margin-top: auto;
+    opacity: 0; /* JS will show it instantly */
 }
 
-/* Responsive adjustments */
+/* Simple validation states - no animations */
+.input-group.error input,
+.input-icon-wrapper.error {
+    border-color: var(--error-color);
+}
+
+.input-group.success input,
+.input-icon-wrapper.success {
+    border-color: var(--success-color);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .login-container {
         flex-direction: column;
         width: 95%;
-        max-width: 500px; /* Max width for smaller screens */
+        max-width: 500px;
     }
 
     .login-form-section,
@@ -360,8 +367,8 @@ body.body-loaded {
 
     .login-image-section {
         padding: 30px;
-        min-height: 250px; /* Ensure some height */
-        order: -1; /* Move image to top on mobile */
+        min-height: 250px;
+        order: -1;
     }
 
     .login-form-section {
@@ -377,12 +384,15 @@ body.body-loaded {
     .login-form-section {
         padding: 30px 25px;
     }
+    
     .subtitle {
         font-size: 13px;
     }
-    .form-toggle{
+    
+    .form-toggle {
         flex-direction: column;
     }
+    
     .toggle-btn:first-child {
         border-right: none;
         border-bottom: 1px solid #e0e0e0;

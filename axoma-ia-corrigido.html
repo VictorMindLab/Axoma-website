@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axoma IA Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-color: #6366f1;
+            --accent-hover: #5855eb;
+            --border-color: #333333;
+            --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --gradient-secondary: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* API Status */
+        .api-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #10b981;
+            z-index: 999;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .ai-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .ai-avatar i {
+            font-size: 48px;
+            color: white;
+        }
+
+        .greeting h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .greeting p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .greeting .powered-by {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Chat Interface */
+        .chat-interface {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .chat-interface.active {
+            display: flex;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .chat-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .message-counter {
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-action-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .chat-action-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .chat-action-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: calc(100vh - 300px);
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-color);
+        }
+
+        .message-content {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            border: 1px solid var(--border-color);
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 16px 60px 16px 60px;
+            font-size: 16px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .send-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Suggestions */
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 40px 0;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .suggestion-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+        }
+
+        .suggestion-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .suggestion-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 80%;
+        }
+
+        .typing-indicator .message-avatar {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .typing-content {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: typingPulse 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingPulse {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .greeting h1 {
+                font-size: 36px;
+            }
+
+            .greeting p {
+                font-size: 20px;
+            }
+
+            .suggestions {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .bottom-nav {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                Axoma IA
+            </div>
+            <div class="user-avatar">A</div>
+        </header>
+
+        <!-- API Status -->
+        <div class="api-status" id="apiStatus">
+            <i class="fas fa-circle"></i> DeepSeek Chat (GRATUITO)
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="welcomeScreen">
+            <div class="ai-avatar">
+                <i class="fas fa-smile"></i>
+            </div>
+
+            <div class="greeting">
+                <h1>Olá! Sou a Axoma IA,</h1>
+                <p>Seu assistente inteligente para fitness e bem-estar</p>
+                <p class="powered-by">
+                    <i class="fas fa-brain"></i> Powered by DeepSeek Chat (100% GRATUITO)
+                </p>
+            </div>
+
+            <div class="suggestions">
+                <div class="suggestion-card">
+                    <h3>💪 Treino para Iniciantes</h3>
+                    <p>Monte seu primeiro programa de exercícios</p>
+                </div>
+                <div class="suggestion-card">
+                    <h3>🥗 Dieta para Hipertrofia</h3>
+                    <p>Alimentação ideal para ganhar massa</p>
+                </div>
+                <div class="suggestion-card">
+                    <h3>🔥 Plano de Emagrecimento</h3>
+                    <p>Perca peso de forma sustentável</p>
+                </div>
+                <div class="suggestion-card">
+                    <h3>🏃 Cardio Eficiente</h3>
+                    <p>Melhore seu condicionamento físico</p>
+                </div>
+                <div class="suggestion-card">
+                    <h3>🧘 Recuperação e Descanso</h3>
+                    <p>Otimize seus resultados com descanso</p>
+                </div>
+                <div class="suggestion-card">
+                    <h3>📊 Acompanhar Progresso</h3>
+                    <p>Como medir seus resultados</p>
+                </div>  
+            </div>
+        </main>
+
+        <!-- Chat Interface -->
+        <div class="chat-interface" id="chatInterface">
+            <div class="chat-header">
+                <h2 class="chat-title">
+                    💬 Chat com Axoma IA
+                    <span class="message-counter" id="messageCounter">0 mensagens</span>
+                </h2>
+                <div class="chat-actions">
+                    <button class="chat-action-btn" id="clearChatBtn">
+                        <i class="fas fa-trash"></i>
+                        <span>Limpar</span>
+                    </button>
+                    <button class="chat-action-btn" id="exportChatBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Exportar</span>
+                    </button>
+                    <button class="chat-action-btn primary" id="backButton">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Voltar</span>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" placeholder="Digite sua mensagem..." id="chatInput">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Agentes</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre</span>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // OpenRouter API Configuration INLINE
+        class OpenRouterAPI {
+            constructor() {
+                this.apiKey = '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';
+                this.baseUrl = 'https://openrouter.ai/api/v1';
+                this.defaultModel = 'deepseek/deepseek-chat';
+                
+                this.systemPrompt = `Você é a Axoma IA powered by DeepSeek Chat (GRATUITO), um assistente inteligente especializado em fitness, saúde e bem-estar. 
+                                   Seja útil, informativo, motivacional e sempre preciso. Use seu conhecimento avançado para 
+                                   fornecer respostas de alta qualidade sobre fitness, nutrição e saúde.`;
+            }
+
+            isConfigured() {
+                return this.apiKey && 
+                       this.apiKey.trim() !== '' && 
+                       this.apiKey !== 'YOUR_API_KEY_HERE' &&
+                       this.apiKey.startsWith('sk-or-');
+            }
+
+            async makeAPICall(messages, options = {}) {
+                if (!this.isConfigured()) {
+                    throw new Error('API Key do OpenRouter não configurada');
+                }
+
+                const fullMessages = [
+                    { role: 'system', content: this.systemPrompt },
+                    ...messages
+                ];
+
+                const requestBody = {
+                    model: this.defaultModel,
+                    messages: fullMessages,
+                    max_tokens: options.maxTokens || 1500,
+                    temperature: options.temperature || 0.7,
+                    top_p: options.topP || 0.9,
+                    frequency_penalty: options.frequencyPenalty || 0,
+                    presence_penalty: options.presencePenalty || 0,
+                    stream: false
+                };
+
+                const response = await fetch(`${this.baseUrl}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${this.apiKey}`,
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': window.location.origin,
+                        'X-Title': 'Axoma IA - DeepSeek Chat'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`OpenRouter API Error: ${response.status} - ${errorData.error?.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                    throw new Error('Resposta inválida da API do OpenRouter');
+                }
+
+                return {
+                    success: true,
+                    message: data.choices[0].message.content,
+                    model: this.defaultModel,
+                    usage: data.usage
+                };
+            }
+        }
+
+        // Global variables
+        let isInChatMode = false;
+        const openRouterAPI = new OpenRouterAPI();
+        
+        // DOM elements
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const chatInterface = document.getElementById('chatInterface');
+        const chatMessages = document.getElementById('chatMessages');
+        const backButton = document.getElementById('backButton');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const exportChatBtn = document.getElementById('exportChatBtn');
+        const messageCounter = document.getElementById('messageCounter');
+        const apiStatus = document.getElementById('apiStatus');
+
+        // Chat functionality
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Switch to chat mode if not already
+                if (!isInChatMode) {
+                    switchToChatMode();
+                }
+        
+                // Add user message
+                addMessage(message, 'user');
+                chatInput.value = '';
+        
+                // Show typing indicator
+                showTypingIndicator();
+        
+                try {
+                    // Get AI response
+                    const response = await openRouterAPI.makeAPICall(
+                        [{ role: 'user', content: message }],
+                        {
+                            maxTokens: 1500,
+                            temperature: 0.7,
+                            topP: 0.9
+                        }
+                    );
+                    
+                    hideTypingIndicator();
+                    addMessage(response.message, 'ai');
+                } catch (error) {
+                    console.error('Error getting AI response:', error);
+                    hideTypingIndicator();
+                    addMessage('Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.', 'ai');
+                }
+            }
+        }
+
+        function switchToChatMode() {
+            isInChatMode = true;
+            welcomeScreen.style.display = 'none';
+            chatInterface.classList.add('active');
+        }
+
+        function switchToWelcomeMode() {
+            isInChatMode = false;
+            welcomeScreen.style.display = 'flex';
+            chatInterface.classList.remove('active');
+            chatMessages.innerHTML = '';
+            updateMessageCounter();
+        }
+
+        function updateMessageCounter() {
+            const messageCount = chatMessages.querySelectorAll('.message').length;
+            messageCounter.textContent = `${messageCount} mensagem${messageCount !== 1 ? 's' : ''}`;
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = sender === 'ai' ? 
+                    '<i class="fas fa-robot"></i>' : 
+                    '<i class="fas fa-user"></i>';
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">${text}</div>
+            `;
+            
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                updateMessageCounter();
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="typing-content">
+                        <span>Processando...</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        backButton.addEventListener('click', switchToWelcomeMode);
+
+        // Clear chat functionality
+        clearChatBtn.addEventListener('click', function() {
+            if (confirm('Tem certeza que deseja limpar toda a conversa?')) {
+                chatMessages.innerHTML = '';
+                updateMessageCounter();
+            }
+        });
+
+        // Export chat functionality
+        exportChatBtn.addEventListener('click', function() {
+            const messages = chatMessages.querySelectorAll('.message');
+            if (messages.length === 0) {
+                alert('Não há mensagens para exportar!');
+                return;
+            }
+
+            let chatText = '=== CONVERSA COM AXOMA IA ===\n';
+            chatText += `Data: ${new Date().toLocaleString('pt-BR')}\n\n`;
+
+            messages.forEach(message => {
+                const isUser = message.classList.contains('user');
+                const content = message.querySelector('.message-content').textContent;
+                const sender = isUser ? 'VOCÊ' : 'AXOMA IA';
+                chatText += `${sender}: ${content}\n\n`;
+            });
+
+            // Create and download file
+            const blob = new Blob([chatText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `conversa-axoma-ia-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Suggestion cards click
+        document.querySelectorAll('.suggestion-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const text = this.querySelector('h3').textContent + ' ' + this.querySelector('p').textContent;
+                chatInput.value = text;
+                chatInput.focus();
+            });
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                const navText = this.querySelector('span').textContent;
+                if (navText === 'Sobre') {
+                    alert('Axoma IA v2.0\n\nSistema de IA integrado com OpenRouter\nModelo: DeepSeek Chat (100% GRATUITO)\nEspecializado em fitness e bem-estar\n\n© 2024 Axoma Fitness');
+                }
+            });
+        });
+
+        // Initialize
+        console.log('🚀 Axoma IA Inicialized - DeepSeek Chat (GRATUITO)');
+        console.log('✅ API Key configured:', openRouterAPI.isConfigured());
+    </script>
+</body>
+</html> 

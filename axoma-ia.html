@@ -6,6 +6,12 @@
     <title>Axoma IA Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- OpenRouter API Configuration -->
+    <script src="openrouter-config.js"></script>
+    <!-- Axoma IA Main Script -->
+    <script src="axoma-ia.js"></script>
+    
     <style>
         :root {
             --bg-primary: #0a0a0a;
@@ -290,93 +296,6 @@
             transform: translateY(-2px);
         }
 
-        /* API Configuration Modal */
-        .api-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .api-modal.hidden {
-            display: none;
-        }
-
-        .api-modal-content {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .api-modal h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .api-modal p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .api-input {
-            width: 100%;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            font-family: monospace;
-        }
-
-        .api-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .api-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .api-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .api-btn.primary {
-            background: var(--gradient-primary);
-            color: white;
-        }
-
-        .api-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .api-btn:hover {
-            transform: translateY(-2px);
-        }
-
         .api-status {
             position: fixed;
             top: 20px;
@@ -398,6 +317,11 @@
         .api-status.disconnected {
             border-color: #ef4444;
             color: #ef4444;
+        }
+
+        .api-status.demo {
+            border-color: #fbbf24;
+            color: #fbbf24;
         }
 
         .ai-avatar {
@@ -692,33 +616,14 @@
     <header class="header">
         <div class="logo">
                 <i class="fas fa-robot"></i>
-                AI Assistant
+                Axoma IA
         </div>
-            <div class="user-avatar">M</div>
+            <div class="user-avatar">A</div>
     </header>
 
         <!-- API Status -->
-        <div class="api-status disconnected" id="apiStatus">
-            <i class="fas fa-circle"></i> Gemini 2.0 Flash: Desconectado
-        </div>
-
-        <!-- API Configuration Modal -->
-        <div class="api-modal" id="apiModal">
-            <div class="api-modal-content">
-                <h3>Configurar Google Gemini 2.0 Flash</h3>
-                <p>Para usar o modelo mais avançado da Google, configure sua chave da API do Gemini 2.0 Flash.</p>
-                <p><strong>Como obter:</strong><br>
-                1. Acesse <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: var(--accent-color);">Google AI Studio</a><br>
-                2. Crie uma nova API Key<br>
-                3. Cole a chave abaixo</p>
-                
-                <input type="password" class="api-input" id="apiKeyInput" placeholder="Cole sua API Key do Gemini aqui...">
-                
-                <div class="api-buttons">
-                    <button class="api-btn secondary" id="skipApiBtn">Usar Modo Demo</button>
-                    <button class="api-btn primary" id="saveApiBtn">Salvar e Conectar</button>
-            </div>
-            </div>
+        <div class="api-status connected" id="apiStatus">
+            <i class="fas fa-circle"></i> DeepSeek Chat (GRATUITO)
         </div>
 
     <!-- Main Content -->
@@ -728,9 +633,12 @@
             </div>
 
             <div class="greeting">
-                <h1>Olá! Sou o Opus,</h1>
-                <p>Seu personal trainer virtual da Axoma</p>
-                    </div>
+                <h1>Olá! Sou a Axoma IA,</h1>
+                <p>Seu assistente inteligente para fitness e bem-estar</p>
+                <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px;">
+                    <i class="fas fa-brain"></i> Powered by DeepSeek Chat (100% GRATUITO)
+                </p>
+            </div>
 
             <div class="suggestions">
                 <div class="suggestion-card scroll-element">
@@ -764,7 +672,7 @@
         <div class="chat-interface" id="chatInterface">
             <div class="chat-header">
                 <h2 class="chat-title">
-                    💬 Chat com Opus
+                    💬 Chat com Axoma IA
                     <span class="message-counter" id="messageCounter">0 mensagens</span>
                 </h2>
                 <div class="chat-actions">
@@ -807,12 +715,12 @@
                 <span>Chat</span>
             </div>
             <div class="nav-item">
-                <i class="fas fa-tasks"></i>
-                <span>Tasks</span>
+                <i class="fas fa-cog"></i>
+                <span>Agentes</span>
         </div>
             <div class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre</span>
             </div>
         </nav>
     </div>
@@ -820,10 +728,6 @@
     <script>
         // Global variables
         let isInChatMode = false;
-        let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
-        
-        // Google Gemini API Configuration
-        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
         
         // Scroll Animation Observer
         document.addEventListener('DOMContentLoaded', function() {
@@ -856,8 +760,26 @@
             const exportChatBtn = document.getElementById('exportChatBtn');
             const messageCounter = document.getElementById('messageCounter');
             const voiceButton = document.getElementById('voiceButton');
+            const apiStatus = document.getElementById('apiStatus');
 
-            // Chat functionality
+            // Update API status
+            function updateApiStatus() {
+                console.log('📊 Status da API:', {
+                    openRouterAPI: !!window.openRouterAPI,
+                    isConfigured: window.openRouterAPI ? window.openRouterAPI.isConfigured() : false,
+                    apiKey: window.openRouterAPI ? window.openRouterAPI.apiKey.substring(0, 20) + '...' : 'não encontrada'
+                });
+                
+                if (window.openRouterAPI && window.openRouterAPI.isConfigured()) {
+                    apiStatus.className = 'api-status connected';
+                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> DeepSeek Chat (GRATUITO)';
+                } else {
+                    apiStatus.className = 'api-status disconnected';
+                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> API Key Necessária';
+                }
+            }
+
+            // Chat functionality using the new system
             async function sendMessage() {
                 const message = chatInput.value.trim();
                 if (message) {
@@ -866,18 +788,18 @@
                         switchToChatMode();
                     }
             
-            // Add user message
-            addMessage(message, 'user');
+                    // Add user message
+                    addMessage(message, 'user');
                     chatInput.value = '';
             
-            // Show typing indicator
-            showTypingIndicator();
+                    // Show typing indicator
+                    showTypingIndicator();
             
                     try {
-                        // Get AI response
+                        // Get AI response using new system
                         const response = await generateAIResponse(message);
-                hideTypingIndicator();
-                addMessage(response, 'ai');
+                        hideTypingIndicator();
+                        addMessage(response, 'ai');
                     } catch (error) {
                         console.error('Error getting AI response:', error);
                         hideTypingIndicator();
@@ -906,244 +828,86 @@
                 messageCounter.textContent = `${messageCount} mensagem${messageCount !== 1 ? 's' : ''}`;
             }
 
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const avatar = sender === 'ai' ? 
-                    '<i class="fas fa-robot"></i>' : 
-                    '<i class="fas fa-user"></i>';
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
-                <div class="message-content">${text}</div>
-            `;
-            
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                updateMessageCounter();
-        }
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = sender === 'ai' ? 
+                        '<i class="fas fa-robot"></i>' : 
+                        '<i class="fas fa-user"></i>';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${avatar}</div>
+                    <div class="message-content">${text}</div>
+                `;
+                
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    updateMessageCounter();
+            }
 
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-                typingDiv.id = 'typingIndicator';
-            
-            typingDiv.innerHTML = `
-                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="typing-content">
-                        <span>AI is typing</span>
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                    typingDiv.id = 'typingIndicator';
+                
+                typingDiv.innerHTML = `
+                        <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                        <div class="typing-content">
+                            <span>Processando...</span>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
                     </div>
-                </div>
-            `;
-            
-                chatMessages.appendChild(typingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
+                `;
+                
+                    chatMessages.appendChild(typingDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-        }
 
+            function hideTypingIndicator() {
+                    const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Generate AI response using the new OpenRouter system
             async function generateAIResponse(userMessage) {
-                try {
-                    // Check if API key is configured
-                    if (!GEMINI_API_KEY || GEMINI_API_KEY.length < 10) {
-                        return getFallbackResponse(userMessage);
-                    }
-
-                    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{
-                                    text: `Você é Opus, personal trainer virtual especialista da Axoma. Use o poder do Gemini 2.0 Flash para dar respostas precisas sobre fitness.
-
-🎯 MISSÃO: Ser o melhor assistente de fitness do Brasil
-
-📋 DIRETRIZES:
-• Responda APENAS sobre: treino, nutrição, emagrecimento, hipertrofia, cardio, suplementos, recuperação
-• Português brasileiro, tom amigável e motivador
-• Máximo 4 frases, seja específico com números e dados
-• Se não for fitness: "Sou especialista em fitness. Como posso te ajudar com treino, alimentação ou bem-estar?"
-
-💡 EXEMPLOS DE EXCELÊNCIA:
-🏋️ Treino: "Para iniciantes: 3x/semana, exercícios compostos (agachamento, supino, remada). 3 séries x 8-12 reps, descanso 60-90s. Progressão: +2,5kg quando conseguir 12 reps em todas as séries."
-
-🥗 Nutrição: "Hipertrofia: 2-2,5g proteína/kg + 4-6g carbo/kg + 1g gordura/kg. Exemplo 70kg: 140g proteína (frango, ovos), 350g carbo (arroz, batata), 70g gordura (azeite, castanhas). 5-6 refeições/dia."
-
-🔥 Emagrecimento: "Déficit 300-500 cal/dia = 0,5kg/semana. Treino força 3x + cardio 2x (HIIT 15min ou moderado 30min). Priorize proteína 1,8g/kg para preservar massa magra."
-
-PERGUNTA: "${userMessage}"
-
-RESPOSTA ESPECIALIZADA:`
-                                }]
-                            }],
-                            generationConfig: {
-                                temperature: 0.4,
-                                topK: 40,
-                                topP: 0.9,
-                                maxOutputTokens: 300,
-                                candidateCount: 1
+                // Check if OpenRouter is available and configured
+                if (window.openRouterAPI && window.openRouterAPI.isConfigured()) {
+                    try {
+                        const response = await window.openRouterAPI.makeAPICall(
+                            [{ role: 'user', content: userMessage }], 
+                            'default',
+                            {
+                                maxTokens: 1500,
+                                temperature: 0.7,
+                                topP: 0.9
                             }
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    
-                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-                        const aiResponse = data.candidates[0].content.parts[0].text;
-                        console.log('Resposta original do Gemini:', aiResponse);
-                        console.log('Pergunta do usuário:', userMessage);
+                        );
                         
-                        // Validar se a resposta é sobre fitness
-                        if (isValidFitnessResponse(aiResponse, userMessage)) {
-                            console.log('✅ Resposta aprovada');
-                            return aiResponse;
+                        if (response.success) {
+                            return response.message;
                         } else {
-                            console.log('❌ Resposta rejeitada, usando fallback');
-                            return getFallbackResponse(userMessage);
+                            console.error('Erro da API OpenRouter:', response.error);
+                            return `❌ Erro na API: ${response.error}\n\nPor favor, verifique sua configuração no arquivo openrouter-config.js`;
                         }
-                    } else {
-                        throw new Error('Invalid response format from Gemini API');
+                    } catch (error) {
+                        console.error('Erro ao chamar OpenRouter API:', error);
+                        return `❌ Erro de conexão: ${error.message}\n\nVerifique sua API key no arquivo openrouter-config.js`;
                     }
-                } catch (error) {
-                    console.error('Error calling Gemini API:', error);
-                    return getFallbackResponse(userMessage);
-                }
-            }
-
-            function isValidFitnessResponse(response, userMessage) {
-                const fitnessKeywords = [
-                    'treino', 'exercício', 'musculação', 'cardio', 'força', 'hipertrofia',
-                    'dieta', 'nutrição', 'proteína', 'carboidrato', 'caloria', 'alimentação',
-                    'peso', 'emagrecer', 'massa', 'músculo', 'gordura', 'queimar',
-                    'série', 'repetição', 'descanso', 'recuperação', 'suplemento',
-                    'academia', 'fitness', 'saúde', 'bem-estar', 'condicionamento'
-                ];
-                
-                const lowerResponse = response.toLowerCase();
-                const lowerMessage = userMessage.toLowerCase();
-                
-                // Se a pergunta é sobre fitness, a resposta deve conter pelo menos uma palavra-chave
-                const messageHasFitness = fitnessKeywords.some(keyword => lowerMessage.includes(keyword));
-                const responseHasFitness = fitnessKeywords.some(keyword => lowerResponse.includes(keyword));
-                
-                // Se a resposta é muito genérica ou não tem relação com fitness
-                const genericPhrases = [
-                    'como posso ajudar', 'não entendi', 'pode esclarecer', 'preciso de mais informações',
-                    'desculpe', 'não sei', 'não posso', 'não consigo'
-                ];
-                
-                const isGeneric = genericPhrases.some(phrase => lowerResponse.includes(phrase));
-                
-                // Validação: se pergunta é sobre fitness, resposta deve ser sobre fitness e não genérica
-                if (messageHasFitness) {
-                    return responseHasFitness && !isGeneric && response.length > 20;
-                }
-                
-                // Se pergunta não é sobre fitness, aceitar redirecionamento
-                return true;
-            }
-
-            function getFallbackResponse(userMessage) {
-                const lowerMessage = userMessage.toLowerCase();
-                
-                // Respostas específicas por categoria
-                if (lowerMessage.includes('treino') || lowerMessage.includes('exercício') || lowerMessage.includes('workout') || lowerMessage.includes('exercise')) {
-                    const workoutResponses = [
-                        "Para um treino eficaz, recomendo 3-4x por semana combinando musculação e cardio. Comece com exercícios básicos como agachamento, flexão e prancha. Qual seu objetivo principal?",
-                        "O melhor treino é aquele que você consegue manter consistente! Sugiro começar com 30-45 minutos, 3x na semana. Quer dicas para iniciantes ou já tem experiência?",
-                        "Para resultados rápidos, foque em exercícios compostos: agachamento, levantamento terra, supino. Combine com 20 min de cardio. Qual sua disponibilidade semanal?"
-                    ];
-                    return workoutResponses[Math.floor(Math.random() * workoutResponses.length)];
-                    
-                } else if (lowerMessage.includes('dieta') || lowerMessage.includes('nutrição') || lowerMessage.includes('diet') || lowerMessage.includes('nutrition') || lowerMessage.includes('comer') || lowerMessage.includes('alimentação')) {
-                    const nutritionResponses = [
-                        "Para uma alimentação saudável: priorize proteínas (1,6-2g por kg), carboidratos complexos e gorduras boas. Beba 2-3L de água diariamente. Qual seu objetivo: ganhar massa ou emagrecer?",
-                        "A regra 80/20 funciona bem: 80% alimentos naturais, 20% flexibilidade. Inclua proteína em todas as refeições e evite ultraprocessados. Precisa de um cardápio específico?",
-                        "Nutrição é 70% do resultado! Foque em: ovos, frango, peixe, arroz integral, batata doce, frutas e vegetais. Faça 4-5 refeições menores. Quer dicas de preparo?"
-                    ];
-                    return nutritionResponses[Math.floor(Math.random() * nutritionResponses.length)];
-                    
-                } else if (lowerMessage.includes('peso') || lowerMessage.includes('emagrecer') || lowerMessage.includes('weight') || lowerMessage.includes('lose') || lowerMessage.includes('gordura')) {
-                    const weightLossResponses = [
-                        "Para emagrecer de forma saudável: déficit calórico de 300-500 cal/dia, treino de força + cardio, e paciência. Meta realista: 0,5-1kg por semana. Qual seu peso atual e meta?",
-                        "Emagrecimento sustentável combina: alimentação balanceada, exercícios regulares e bom sono. Evite dietas extremas! Prefere treino em casa ou academia?",
-                        "O segredo é consistência! Reduza açúcar e frituras, aumente proteína e fibras, caminhe 8-10k passos/dia. Resultados aparecem em 4-6 semanas. Vamos começar?"
-                    ];
-                    return weightLossResponses[Math.floor(Math.random() * weightLossResponses.length)];
-                    
-                } else if (lowerMessage.includes('músculo') || lowerMessage.includes('força') || lowerMessage.includes('muscle') || lowerMessage.includes('strength') || lowerMessage.includes('hipertrofia') || lowerMessage.includes('massa')) {
-                    const muscleResponses = [
-                        "Para ganhar massa muscular: treino de força 4-5x/semana, proteína 2g/kg, superávit calórico de 200-400 cal, e descanso adequado. Já treina há quanto tempo?",
-                        "Hipertrofia requer: sobrecarga progressiva, 8-12 repetições, 3-4 séries, descanso 48-72h entre grupos musculares. Suplementação com whey protein ajuda. Qual grupo quer focar?",
-                        "Construir músculos leva tempo! Foque em exercícios básicos, aumente carga gradualmente, coma bem e durma 7-8h. Resultados visíveis em 8-12 semanas. Precisa de um programa?"
-                    ];
-                    return muscleResponses[Math.floor(Math.random() * muscleResponses.length)];
-                    
-                } else if (lowerMessage.includes('cardio') || lowerMessage.includes('aeróbico') || lowerMessage.includes('corrida') || lowerMessage.includes('caminhada')) {
-                    const cardioResponses = [
-                        "Para cardio eficiente: 20-30 min, 3-4x por semana. Comece com caminhada rápida, evolua para corrida. Mantenha frequência cardíaca entre 60-80% da máxima. Prefere HIIT ou steady state?",
-                        "Cardio queima gordura e melhora condicionamento! Alterne: segunda (HIIT 15 min), quarta (corrida 25 min), sexta (bike 30 min). Sempre após o treino de força!",
-                        "Para iniciantes: caminhada 30 min diários. Intermediário: corrida 20 min + bike 15 min. Avançado: HIIT 4x4 min. Qual seu nível atual?"
-                    ];
-                    return cardioResponses[Math.floor(Math.random() * cardioResponses.length)];
-                    
-                } else if (lowerMessage.includes('suplemento') || lowerMessage.includes('whey') || lowerMessage.includes('creatina') || lowerMessage.includes('vitamina')) {
-                    const supplementResponses = [
-                        "Suplementos essenciais: Whey protein (25-30g pós-treino), Creatina (3-5g diários), Multivitamínico. Primeiro foque na alimentação, depois suplemente as lacunas!",
-                        "Para hipertrofia: Whey + Creatina + BCAA. Para emagrecimento: Whey + L-Carnitina + Cafeína. Sempre com orientação! Qual seu objetivo principal?",
-                        "Básico funciona: Whey protein, Creatina monohidratada, Ômega 3. Evite fórmulas milagrosas! 80% é dieta e treino, 20% suplementação. Precisa de indicações específicas?"
-                    ];
-                    return supplementResponses[Math.floor(Math.random() * supplementResponses.length)];
-                    
-                } else if (lowerMessage.includes('descanso') || lowerMessage.includes('sono') || lowerMessage.includes('recuperação') || lowerMessage.includes('overtraining')) {
-                    const recoveryResponses = [
-                        "Recuperação é quando o músculo cresce! Durma 7-9h, descanse 48-72h entre grupos musculares, hidrate-se bem. Sinais de overtraining: fadiga, irritabilidade, queda de performance.",
-                        "Sono de qualidade = resultados melhores! Evite telas 1h antes de dormir, quarto escuro e fresco, mesma rotina diária. Músculos crescem no descanso, não no treino!",
-                        "Recuperação ativa funciona: caminhada leve, alongamento, yoga nos dias de descanso. Escute seu corpo: dor muscular normal, dor articular = pare. Como está seu sono?"
-                    ];
-                    return recoveryResponses[Math.floor(Math.random() * recoveryResponses.length)];
-                    
-                } else if (lowerMessage.includes('motivação') || lowerMessage.includes('desânimo') || lowerMessage.includes('preguiça') || lowerMessage.includes('começar')) {
-                    const motivationResponses = [
-                        "A motivação vem da ação! Comece pequeno: 15 min de caminhada hoje. O importante é criar o hábito. Cada dia é uma nova oportunidade de cuidar de si!",
-                        "Lembre-se: você não precisa ser perfeito, só precisa começar! Defina uma meta pequena para hoje e celebre cada conquista. Estou aqui para te apoiar!",
-                        "O primeiro passo é sempre o mais difícil, mas você é mais forte do que imagina! Que tal começarmos com algo simples? Qual atividade te daria prazer?"
-                    ];
-                    return motivationResponses[Math.floor(Math.random() * motivationResponses.length)];
-                    
                 } else {
-                    // Respostas gerais redirecionando para fitness
-                    const generalResponses = [
-                        "Olá! Sou a Axoma IA, especialista em fitness e bem-estar. Como posso te ajudar com seus objetivos de saúde hoje? Treino, nutrição ou motivação?",
-                        "Oi! Estou aqui para te ajudar com fitness, nutrição e bem-estar. Qual é seu principal objetivo: emagrecer, ganhar massa muscular ou melhorar o condicionamento?",
-                        "Seja bem-vindo(a)! Sou especialista em fitness e posso te ajudar com treinos, alimentação saudável e motivação. Por onde gostaria de começar?",
-                        "Olá! Como seu assistente de fitness, posso te ajudar a criar um plano personalizado. Qual seu maior desafio atual: falta de tempo, motivação ou conhecimento?"
-                    ];
-                    return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+                    return `🔑 **API Key Necessária**\n\nPara usar a Axoma IA com DeepSeek R1 Distill Qwen 7B, você precisa:\n\n1. Obter uma API key em: https://openrouter.ai/\n2. Editar o arquivo \`openrouter-config.js\`\n3. Substituir 'YOUR_API_KEY_HERE' pela sua chave\n\nApós configurar, a IA estará totalmente funcional!`;
                 }
             }
 
             // Event listeners
             sendButton.addEventListener('click', sendMessage);
             chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+                if (e.key === 'Enter') {
                     sendMessage();
                 }
             });
@@ -1183,13 +947,13 @@ RESPOSTA ESPECIALIZADA:`
                     return;
                 }
 
-                let chatText = '=== CONVERSA COM OPUS - AXOMA IA ===\n';
+                let chatText = '=== CONVERSA COM AXOMA IA ===\n';
                 chatText += `Data: ${new Date().toLocaleString('pt-BR')}\n\n`;
 
                 messages.forEach(message => {
                     const isUser = message.classList.contains('user');
                     const content = message.querySelector('.message-content').textContent;
-                    const sender = isUser ? 'VOCÊ' : 'OPUS';
+                    const sender = isUser ? 'VOCÊ' : 'AXOMA IA';
                     chatText += `${sender}: ${content}\n\n`;
                 });
 
@@ -1198,7 +962,7 @@ RESPOSTA ESPECIALIZADA:`
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `conversa-opus-${new Date().toISOString().split('T')[0]}.txt`;
+                a.download = `conversa-axoma-ia-${new Date().toISOString().split('T')[0]}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1224,71 +988,28 @@ RESPOSTA ESPECIALIZADA:`
                     const navText = this.querySelector('span').textContent;
                     if (navText === 'Chat') {
                         // Already in chat mode or welcome screen
-                    } else if (navText === 'Tasks') {
-                        alert('Tasks feature coming soon!');
-                    } else if (navText === 'Settings') {
-                        showApiModal();
+                    } else if (navText === 'Agentes') {
+                        // Open agent selector - this would use the functions from axoma-ia.js
+                        showAgentSelector();
+                    } else if (navText === 'Sobre') {
+                        showAboutInfo();
                     }
                 });
             });
 
-            // API Configuration
-            const apiModal = document.getElementById('apiModal');
-            const apiStatus = document.getElementById('apiStatus');
-            const apiKeyInput = document.getElementById('apiKeyInput');
-            const saveApiBtn = document.getElementById('saveApiBtn');
-            const skipApiBtn = document.getElementById('skipApiBtn');
-
-            function showApiModal() {
-                apiModal.classList.remove('hidden');
-                apiKeyInput.value = GEMINI_API_KEY;
+            function showAgentSelector() {
+                alert('Selecione um agente especializado:\n\n• Training Agent - Especialista em treinos\n• Privacy Agent - Segurança e privacidade\n• Tools Agent - Ferramentas da plataforma\n• Knowledge Agent - Base de conhecimento\n\nEm breve: interface visual para seleção!');
             }
 
-            function hideApiModal() {
-                apiModal.classList.add('hidden');
+            function showAboutInfo() {
+                alert('Axoma IA v2.0\n\nSistema de IA integrado com OpenRouter\nModelo: DeepSeek Chat (100% GRATUITO)\nEspecializado em fitness e bem-estar\n\n© 2024 Axoma Fitness');
             }
 
-            function updateApiStatus() {
-                if (GEMINI_API_KEY && GEMINI_API_KEY.length > 10) {
-                    apiStatus.className = 'api-status connected';
-                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> Gemini 2.0 Flash: Conectado';
-                } else {
-                    apiStatus.className = 'api-status disconnected';
-                    apiStatus.innerHTML = '<i class="fas fa-circle"></i> Gemini 2.0 Flash: Modo Demo';
-                }
-            }
-
-            function saveApiKey() {
-                const newApiKey = apiKeyInput.value.trim();
-                if (newApiKey && newApiKey.length > 10) {
-                    GEMINI_API_KEY = newApiKey;
-                    localStorage.setItem('gemini_api_key', GEMINI_API_KEY);
-                    updateApiStatus();
-                    hideApiModal();
-                    alert('API Key salva com sucesso! Agora você pode usar respostas reais da IA.');
-                } else {
-                    alert('Por favor, insira uma API Key válida.');
-                }
-            }
-
-            // Event listeners for API modal
-            saveApiBtn.addEventListener('click', saveApiKey);
-            skipApiBtn.addEventListener('click', hideApiModal);
-            
-            // Close modal when clicking outside
-            apiModal.addEventListener('click', function(e) {
-                if (e.target === apiModal) {
-                    hideApiModal();
-                }
-            });
-
-            // Show modal on first visit if no API key
-            if (!GEMINI_API_KEY || GEMINI_API_KEY.length < 10) {
-                setTimeout(showApiModal, 2000);
-            }
-
-            // Update initial status
+            // Initialize API status
             updateApiStatus();
+            
+            // Check API status periodically
+            setInterval(updateApiStatus, 5000);
         });
     </script>
 </body>
