@@ -214,36 +214,44 @@ header .container {
 
 /* Hero Section */
 .hero {
-    background-color: var(--dark-color); /* Reativado fallback original */
-    /* background-color: yellow !important; */ /* DEBUG: Removido fallback amarelo */
+    background-color: var(--dark-color); /* Fallback background */
     color: var(--light-text);
     padding: 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.hero::before {
-    content: '';
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+    z-index: 2;
 }
 
 .hero .container {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
 }
 
@@ -255,7 +263,7 @@ header .container {
     text-align: center;
 }
 
-/* Rotating Text Animation */
+/* Rotating Text Animation - Typewriter Effect */
 .rotating-text {
     position: relative;
     display: inline-block;
@@ -264,42 +272,55 @@ header .container {
     min-width: 280px;
     text-align: left;
     transition: all 0.3s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 
                  0 0 10px rgba(255, 255, 255, 0.1);
 }
 
+.rotating-text::after {
+    content: '|';
+    display: inline-block;
+    color: var(--primary-color);
+    animation: cursor-blink 1s infinite;
+    font-weight: 400;
+    margin-left: 2px;
+}
 
-
-@keyframes blur-out {
-    0% {
-        filter: blur(0px);
+@keyframes cursor-blink {
+    0%, 50% {
         opacity: 1;
     }
-    100% {
-        filter: blur(12px);
+    51%, 100% {
         opacity: 0;
     }
 }
 
-@keyframes focus-in {
-    0% {
-        filter: blur(12px);
-        opacity: 0;
+@keyframes typing {
+    from {
+        width: 0;
     }
-    100% {
-        filter: blur(0px);
-        opacity: 1;
+    to {
+        width: 100%;
     }
 }
 
-.rotating-text.blur-out {
-    animation: blur-out 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+.rotating-text.typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: none;
 }
 
-.rotating-text.focus-in {
-    animation: focus-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+.rotating-text.typing::after {
+    display: none;
+}
+
+.rotating-text.deleting {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: none;
+}
+
+.rotating-text.deleting::after {
+    display: none;
 }
 
 /* Scroll animations for page elements */
@@ -389,11 +410,11 @@ header .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 3rem;
+    gap: 2rem;
 }
 
 .team-member {
-    width: 250px;
+    width: 200px;
     text-align: center;
     transition: transform 0.3s ease;
 }
@@ -403,8 +424,8 @@ header .container {
 }
 
 .member-img {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background-color: #333;
     margin: 0 auto 1.5rem;
@@ -795,6 +816,15 @@ footer {
     
     .hero {
         padding: 150px 0 80px;
+        /* Fallback background for mobile devices where video might not autoplay */
+        background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .hero-video {
+        /* Hide video on mobile devices to prevent issues */
+        display: none;
     }
     
     .hero h2 {
@@ -899,4 +929,284 @@ footer {
         font-size: 14px;
         padding: 0.4rem 1rem;
     }
+}
+
+/* GSAP Animation Styles */
+.category-item {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.category-item:hover {
+    transform: scale(1.1);
+}
+
+.hero-title {
+    position: relative;
+}
+
+.title-line {
+    display: inline-block;
+}
+
+.rotating-text {
+    display: inline-block;
+    position: relative;
+}
+
+.rotating-text::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #00ff88;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced hover effects for interactive elements */
+.btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, #00ff88);
+    animation: scroll-bounce 2s infinite;
+}
+
+@keyframes scroll-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Minimalist Section Animations */
+.cta {
+    transition: all 0.3s ease;
+}
+
+.cta:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.about-text {
+    transition: all 0.5s ease;
+}
+
+.team-member {
+    transition: all 0.4s ease;
+    transform-origin: center bottom;
+}
+
+.team-member .member-img {
+    transition: all 0.4s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.team-member .member-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.team-member:hover .member-img::before {
+    transform: translateX(100%);
+}
+
+.team-member h3, .team-member p {
+    transition: all 0.3s ease;
+}
+
+/* Smooth text reveal effect */
+.about h2 {
+    overflow: hidden;
+    position: relative;
+}
+
+.about h2::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(97, 218, 251, 0.4), transparent);
+    transform: translateX(-100%);
+    animation: textShimmer 2s ease-in-out;
+}
+
+@keyframes textShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Enhanced CTA button styles */
+.cta .btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, #000, #333);
+}
+
+.cta .btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.cta .btn:hover::after {
+    width: 200%;
+    height: 200%;
+}
+
+/* Pricing Section Animations */
+.plan {
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.plan::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.plan:hover::before {
+    left: 100%;
+}
+
+.plan .price {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.plan .features-list li {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.plan .features-list li::before {
+    transition: color 0.3s ease;
+}
+
+.plan:hover .features-list li::before {
+    color: #FFFACD;
+}
+
+.plan .btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.plan h3 {
+    transition: all 0.3s ease;
+}
+
+/* Featured plan special effects */
+.plan.featured {
+    position: relative;
+}
+
+.plan.featured::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(255, 250, 205, 0.1);
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+.plan.featured:hover::after {
+    border-color: rgba(255, 250, 205, 0.3);
+    box-shadow: 0 0 20px rgba(255, 250, 205, 0.1);
+}
+
+/* Subtle glow effect for pricing cards */
+.plan:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced button ripple effect base */
+.plan .btn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Price number emphasis */
+.plan:hover .price {
+    text-shadow: 0 0 10px rgba(255, 250, 205, 0.3);
 } 

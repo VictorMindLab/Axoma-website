@@ -1,41 +1,96 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Rotating Text Animation
+    // Hero Video Background Management
+    const heroVideo = document.querySelector('.hero-video');
+    const heroSection = document.querySelector('.hero');
+    
+    if (heroVideo && heroSection) {
+        // Handle video loading
+        heroVideo.addEventListener('loadeddata', function() {
+            console.log('Hero video loaded successfully');
+        });
+        
+        // Handle video errors
+        heroVideo.addEventListener('error', function(e) {
+            console.warn('Hero video failed to load, using fallback background');
+            heroSection.style.backgroundImage = "url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop')";
+            heroSection.style.backgroundSize = "cover";
+            heroSection.style.backgroundPosition = "center";
+            heroVideo.style.display = 'none';
+        });
+        
+        // Try to play the video
+        const playVideo = async () => {
+            try {
+                await heroVideo.play();
+                console.log('Hero video is playing');
+            } catch (error) {
+                console.warn('Autoplay prevented, video will remain paused');
+            }
+        };
+        
+        // Attempt to play video when ready
+        if (heroVideo.readyState >= 3) {
+            playVideo();
+        } else {
+            heroVideo.addEventListener('canplay', playVideo);
+        }
+    }
+    
+    // Rotating Text Animation - Typewriter Effect
     const rotatingTextElement = document.querySelector('.rotating-text');
     if (rotatingTextElement) {
         const words = [
-            'seu poder',
-            'sua voz', 
-            'essência',
-            'melhor de você',
-            'potencial ilimitado'
+            'SEU PODER',
+            'SUA VOZ', 
+            'ESSÊNCIA',
+            'MELHOR DE VOCÊ',
+            'POTENCIAL ILIMITADO'
         ];
         
         let currentWordIndex = 0;
+        let currentText = '';
+        let isDeleting = false;
+        let typeSpeed = 100;
+        let deleteSpeed = 50;
+        let pauseTime = 2000;
         
-        function rotateText() {
-            // Add blur-out animation
-            rotatingTextElement.classList.add('blur-out');
+        function typeWriter() {
+            const currentWord = words[currentWordIndex];
             
-            setTimeout(() => {
-                // Change the text
-                currentWordIndex = (currentWordIndex + 1) % words.length;
-                rotatingTextElement.textContent = words[currentWordIndex];
+            if (isDeleting) {
+                // Remove uma letra
+                currentText = currentWord.substring(0, currentText.length - 1);
+                rotatingTextElement.textContent = currentText;
                 
-                // Remove blur-out and add focus-in
-                rotatingTextElement.classList.remove('blur-out');
-                rotatingTextElement.classList.add('focus-in');
+                if (currentText === '') {
+                    isDeleting = false;
+                    currentWordIndex = (currentWordIndex + 1) % words.length;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    setTimeout(typeWriter, deleteSpeed);
+                }
+            } else {
+                // Adiciona uma letra
+                currentText = currentWord.substring(0, currentText.length + 1);
+                rotatingTextElement.textContent = currentText;
                 
-                setTimeout(() => {
-                    rotatingTextElement.classList.remove('focus-in');
-                }, 800);
-            }, 800);
+                if (currentText === currentWord) {
+                    // Palavra completa, pause e depois comece a deletar
+                    setTimeout(() => {
+                        isDeleting = true;
+                        typeWriter();
+                    }, pauseTime);
+                } else {
+                    setTimeout(typeWriter, typeSpeed);
+                }
+            }
         }
         
-        // Start the rotation after 3 seconds, then repeat every 5 seconds
+        // Inicia a animação após 1 segundo
         setTimeout(() => {
-            setInterval(rotateText, 5000);
-        }, 3000);
+            typeWriter();
+        }, 1000);
     }
 
     // Scroll Animation Observer
@@ -56,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scrollElements.forEach(element => {
         scrollObserver.observe(element);
     });
-});
+            });
 
  
 

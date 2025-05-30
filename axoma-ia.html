@@ -688,14 +688,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
                 <i class="fas fa-robot"></i>
                 AI Assistant
-            </div>
+        </div>
             <div class="user-avatar">M</div>
-        </header>
+    </header>
 
         <!-- API Status -->
         <div class="api-status disconnected" id="apiStatus">
@@ -717,47 +717,47 @@
                 <div class="api-buttons">
                     <button class="api-btn secondary" id="skipApiBtn">Usar Modo Demo</button>
                     <button class="api-btn primary" id="saveApiBtn">Salvar e Conectar</button>
-                </div>
+            </div>
             </div>
         </div>
 
-        <!-- Main Content -->
+    <!-- Main Content -->
         <main class="main-content scroll-element" id="welcomeScreen">
             <div class="ai-avatar">
                 <i class="fas fa-smile"></i>
             </div>
-            
+
             <div class="greeting">
                 <h1>Olá! Sou o Opus,</h1>
                 <p>Seu personal trainer virtual da Axoma</p>
-            </div>
+                    </div>
 
             <div class="suggestions">
                 <div class="suggestion-card scroll-element">
                     <h3>💪 Treino para Iniciantes</h3>
                     <p>Monte seu primeiro programa de exercícios</p>
-                </div>
+                        </div>
                 <div class="suggestion-card scroll-element">
                     <h3>🥗 Dieta para Hipertrofia</h3>
                     <p>Alimentação ideal para ganhar massa</p>
-                </div>
+                    </div>
                 <div class="suggestion-card scroll-element">
                     <h3>🔥 Plano de Emagrecimento</h3>
                     <p>Perca peso de forma sustentável</p>
-                </div>
+                        </div>
                 <div class="suggestion-card scroll-element">
                     <h3>🏃 Cardio Eficiente</h3>
                     <p>Melhore seu condicionamento físico</p>
-                </div>
+                    </div>
                 <div class="suggestion-card scroll-element">
                     <h3>🧘 Recuperação e Descanso</h3>
                     <p>Otimize seus resultados com descanso</p>
-                </div>
+                        </div>
                 <div class="suggestion-card scroll-element">
                     <h3>📊 Acompanhar Progresso</h3>
                     <p>Como medir seus resultados</p>
+                    </div>  
                 </div>
-            </div>
         </main>
 
         <!-- Chat Interface -->
@@ -785,20 +785,20 @@
             <div class="chat-messages" id="chatMessages">
                 <!-- Messages will appear here -->
             </div>
-        </div>
+            </div>
 
         <!-- Chat Input -->
         <div class="chat-input-container">
             <div class="chat-input-wrapper">
                 <button class="voice-button" id="voiceButton" title="Conversa por voz">
                     <i class="fas fa-microphone"></i>
-                </button>
+                        </button>
                 <input type="text" class="chat-input" placeholder="Digite sua mensagem..." id="chatInput">
                 <button class="send-button" id="sendButton">
                     <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
+                        </button>
+                    </div>
+                </div>
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
@@ -809,7 +809,7 @@
             <div class="nav-item">
                 <i class="fas fa-tasks"></i>
                 <span>Tasks</span>
-            </div>
+        </div>
             <div class="nav-item">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
@@ -865,19 +865,19 @@
                     if (!isInChatMode) {
                         switchToChatMode();
                     }
-                    
-                    // Add user message
-                    addMessage(message, 'user');
+            
+            // Add user message
+            addMessage(message, 'user');
                     chatInput.value = '';
-                    
-                    // Show typing indicator
-                    showTypingIndicator();
-                    
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
                     try {
                         // Get AI response
                         const response = await generateAIResponse(message);
-                        hideTypingIndicator();
-                        addMessage(response, 'ai');
+                hideTypingIndicator();
+                addMessage(response, 'ai');
                     } catch (error) {
                         console.error('Error getting AI response:', error);
                         hideTypingIndicator();
@@ -906,51 +906,51 @@
                 messageCounter.textContent = `${messageCount} mensagem${messageCount !== 1 ? 's' : ''}`;
             }
 
-            function addMessage(text, sender) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}`;
-                
-                const avatar = sender === 'ai' ? 
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = sender === 'ai' ? 
                     '<i class="fas fa-robot"></i>' : 
                     '<i class="fas fa-user"></i>';
-                
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">${avatar}</div>
-                    <div class="message-content">${text}</div>
-                `;
-                
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">${text}</div>
+            `;
+            
                 chatMessages.appendChild(messageDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 updateMessageCounter();
-            }
+        }
 
-            function showTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
                 typingDiv.id = 'typingIndicator';
-                
-                typingDiv.innerHTML = `
+            
+            typingDiv.innerHTML = `
                     <div class="message-avatar"><i class="fas fa-robot"></i></div>
                     <div class="typing-content">
                         <span>AI is typing</span>
-                        <div class="typing-dots">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                        </div>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
                     </div>
-                `;
-                
+                </div>
+            `;
+            
                 chatMessages.appendChild(typingDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+        }
 
-            function hideTypingIndicator() {
+        function hideTypingIndicator() {
                 const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
+        }
 
             async function generateAIResponse(userMessage) {
                 try {
@@ -1143,7 +1143,7 @@ RESPOSTA ESPECIALIZADA:`
             // Event listeners
             sendButton.addEventListener('click', sendMessage);
             chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
+            if (e.key === 'Enter') {
                     sendMessage();
                 }
             });
